@@ -4,7 +4,7 @@ import { PDP } from './PDP';
 import { Search } from './Search';
 
 export const Main = () => {
-	const { data , dataError, setId } = useGetProduct()
+	const { data , setId } = useGetProduct()
 
 	useEffect(() => {
 		setId('008884303989M')
