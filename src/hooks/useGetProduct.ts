@@ -1,10 +1,13 @@
+import { IData } from '@component-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { clientID, shopAPI } from '../config/httpConfig';
 
+const proxy = 'https://proxy.cors.sh/'
+
 const useGetProduct = () => {
 	const [productID, setProductId] = useState<string>('');
-	const [data, setData] = useState<any>(null);
+	const [data, setData] = useState<IData | null>(null);
 	const [dataError, setDataError] = useState<string | null>(null);
 
 	const setId = (id: string) => {
@@ -14,15 +17,17 @@ const useGetProduct = () => {
 	useEffect(() => {
 		if (productID) {
 			axios
-				.get(`${shopAPI}/products/${productID}?client_id=${clientID}`, {
-					headers: {
-						'Access-Control-Allow-Origin': '*',
-						'content-type': 'application/json',
-					},
-				})
+				.get(
+					`${proxy}${shopAPI}/products/${productID}/images?all_images=true&client_id=${clientID}`,
+					{
+						headers: {
+							'access-control-allow-origin': clientID,
+							'content-type': 'text/plain',
+						},
+					}
+				)
 				.then((data: any) => {
-					console.log(data);
-					setData(data);
+					setData(data.data);
 				})
 				.catch((err: any) => {
 					setDataError(err);
