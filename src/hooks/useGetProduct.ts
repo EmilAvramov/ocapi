@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { clientID, shopAPI } from '../config/httpConfig';
 
-const proxy = 'https://proxy.cors.sh/'
+const proxy = 'https://corsproxy.io/?';
 
-const useGetProduct = () => {
+export const useGetProduct = () => {
 	const [productID, setProductId] = useState<string>('');
-	const [data, setData] = useState<IData | null>(null);
+	const [dataSet, setDataSet] = useState<IData | null>(null);
 	const [dataError, setDataError] = useState<string | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const setId = (id: string) => {
 		setProductId(id);
@@ -16,26 +17,21 @@ const useGetProduct = () => {
 
 	useEffect(() => {
 		if (productID) {
+			setLoading(true)
 			axios
-				.get(
-					`${proxy}${shopAPI}/products/${productID}/images?all_images=true&client_id=${clientID}`,
-					{
-						headers: {
-							'access-control-allow-origin': clientID,
-							'content-type': 'text/plain',
-						},
-					}
+				.get<IData>(
+					`${proxy}${shopAPI}/products/${productID}/images?all_images=true&view_type=large&client_id=${clientID}`
 				)
-				.then((data: any) => {
-					setData(data.data);
+				.then(({ data }) => {
+					setDataSet(data);
+					setLoading(false)
 				})
 				.catch((err: any) => {
 					setDataError(err);
+					setLoading(false)
 				});
 		}
 	}, [productID]);
 
-	return { data, dataError, setId };
+	return { dataSet, dataError, loading, setId };
 };
-
-export { useGetProduct };

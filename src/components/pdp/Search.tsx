@@ -1,14 +1,13 @@
 import { Flex, Button, FormControl, Input } from '@chakra-ui/react';
+import { ISearch } from '@component-types';
 import { SyntheticEvent, useState } from 'react';
-import { useGetProduct } from '../../hooks/useGetProduct';
 
-export const Search: React.FC = (): JSX.Element => {
-	const { setId } = useGetProduct();
-	const [search, setSearch] = useState<string>('');
+export const Search: React.FC<ISearch> = ({search}): JSX.Element => {
+	const [searchString, setSearchString] = useState<string>('');
 
 	const submitForm = (e: SyntheticEvent) => {
 		e.preventDefault();
-		setId(search);
+		search(searchString)
 	};
 
 	return (
@@ -23,7 +22,7 @@ export const Search: React.FC = (): JSX.Element => {
 							flexBasis='80%'
 							type='text'
 							placeholder='Enter product ID'
-							onChange={(e) => setSearch(e.currentTarget.value)}
+							onChange={(e) => setSearchString(e.currentTarget.value)}
 						/>
 					</FormControl>
 					<Button

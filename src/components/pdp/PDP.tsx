@@ -1,47 +1,50 @@
-import { Box, Flex, Image } from '@chakra-ui/react';
 import { Image as ImageI, IPDP } from '@component-types';
 import { FC, useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import styles from './pdp.module.scss';
 
-export const PDP: FC<IPDP> = ({ productData, dataError }): JSX.Element => {
+export const PDP: FC<IPDP> = ({
+	productData,
+	dataError,
+	loading,
+}): JSX.Element => {
 	const [imageData, setImageData] = useState<ImageI[] | null>(null);
-	
-	useEffect(() => {
-		let images: ImageI[] = []
-		productData?.image_groups.forEach((group) => {
-			group.images.forEach(image => {
-				console.log(image)
-				images.push(image)
-			})
-		})
-		setImageData(images)
-	}, [productData])
 
-	const renderImages = () => {
-		return imageData?.map((image, index) => (
-			<Image
-				key={index}
-				src={image.link}
-				alt={image.alt}></Image>
-		));
-	};
+	useEffect(() => {
+		let images: ImageI[] = [];
+		productData?.image_groups.forEach((group) => {
+			if (group.variation_attributes) {
+				group.images.forEach((image) => {
+					images.push(image);
+				});
+			}
+		});
+		setImageData(images);
+	}, [productData]);
+
+	console.log(productData);
+
 	return (
 		<>
 			{productData && (
-				<Flex
-					as='div'
-					flexDirection='column'
-					width='90%'
-					minHeight='70vh'
-					margin='0 auto'
-					align='center'
-					justify='center'
-					bg='whitesmoke'>
-					<Box>{productData.name}</Box>
-					<Box>{productData.id}</Box>
-					<>
-						{renderImages()}
-					</>
-				</Flex>
+				<div className={styles.swiper__container}>
+					<Swiper
+						modules={[Navigation]}
+						slidesPerView={1}
+						navigation={true}>
+						{imageData?.map((image, index) => (
+							<SwiperSlide key={index}>
+								<img
+									src={image.link}
+									alt={image.alt}
+								/>
+							</SwiperSlide>
+						))}
+					</Swiper>
+				</div>
 			)}
 		</>
 	);

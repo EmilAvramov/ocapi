@@ -2,6 +2,11 @@ declare module '@component-types' {
 	interface IPDP {
 		productData: IData | null;
 		dataError: string | null;
+		loading: boolean;
+	}
+
+	interface ISearch {
+		search: (id:string) => void
 	}
 
 	interface IData {
@@ -33,6 +38,7 @@ declare module '@component-types' {
 		_type: string;
 		images: Image[];
 		view_type: string;
+		variation_attributes: null | VariationAttribute[]
 	}
 
 	interface Image {
@@ -41,5 +47,16 @@ declare module '@component-types' {
 		dis_base_link: string;
 		link: string;
 		title: string;
+	}
+
+	interface VariationAttribute {
+		_type: string;
+		id: string;
+		values: Value[]
+	}
+
+	interface Value {
+		_type: string;
+		value: string;
 	}
 }
