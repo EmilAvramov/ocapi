@@ -5,15 +5,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 
 import { IPDP } from '@component-types';
-import { Image, ImageGroup } from '@data-types';
+import { Image, ImageGroup, IProduct } from '@data-types';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import styles from './PDP.module.scss';
+import { UseCart } from '../../contexts/Cart.context';
 
 export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [quantity, setQuantity] = useState<number>(0);
 	const [imageData, setImageData] = useState<Image[] | null>(null);
+	const { addItem } = UseCart()
 
 	useEffect(() => {
 		let images: Image[] = [];
@@ -30,6 +32,12 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 		});
 		setImageData(images);
 	}, [productData]);
+
+	const addItemToCart = () => {
+		const product:IProduct = productData
+		product.unit_quantity = quantity
+		addItem(product)
+	}
 
 	const increaseQuantity = () => {
 		if (quantity !== 10) {
@@ -96,7 +104,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 								</Button>
 							</Flex>
 						</Flex>
-						<Button marginTop='2%'>Add to Cart</Button>
+						<Button marginTop='2%' onClick={addItemToCart} disabled={quantity === 0}>Add to Cart</Button>
 					</Box>
 				</Flex>
 			)}

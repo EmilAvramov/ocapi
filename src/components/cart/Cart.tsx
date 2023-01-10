@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 
-export const Cart = () => {
+export const Cart: React.FC = ():JSX.Element => {
 	return (
 		<Flex
 			as='div'

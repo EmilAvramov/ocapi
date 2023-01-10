@@ -3,7 +3,7 @@ import { NotFound } from '../helpers/NotFound';
 import { PDP } from './PDP';
 import { Search } from './Search';
 
-export const Main = () => {
+export const Main: React.FC = ():JSX.Element => {
 	const { dataSet, dataError, loading, setId } = useGetProduct();
 
 	const updateID = (id: string) => {

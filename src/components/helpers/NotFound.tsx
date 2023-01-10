@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { IError } from '@component-types';
 
-export const NotFound: React.FC<IError> = ({ error }) => {
+export const NotFound: React.FC<IError> = ({ error }): JSX.Element => {
 	return (
 		<Flex
 			justifyContent='center'
