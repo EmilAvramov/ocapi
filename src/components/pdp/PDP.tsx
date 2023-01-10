@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 
 import { IPDP } from '@component-types';
-import { ImageGroup, IProduct } from '@product-types';
+import { ImageGroup, IProduct, ValuesVAP } from '@product-types';
 import { ImageModel } from '@compound-types';
 
 import 'swiper/css';
@@ -17,6 +17,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [quantity, setQuantity] = useState<number>(0);
 	const [variantColor, setVariantColor] = useState<string | null>(null);
 	const [variantSize, setVariantSize] = useState<string | null>(null);
+	const [sizeData, setSizeData] = useState<ValuesVAP[] | null>(null);
 	const [allCarouselImages, setallCarouselImages] = useState<
 		ImageModel[] | null
 	>(null);
@@ -28,6 +29,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	useEffect(() => {
 		let carouselImages: ImageModel[] = [];
 		let swatchImages: ImageModel[] = [];
+		let sizeData: ValuesVAP[] = [];
 		productData?.image_groups?.forEach((group: ImageGroup) => {
 			if (group.view_type === 'large' || group.view_type === 'swatch') {
 				group.images.forEach((image) => {
@@ -50,8 +52,16 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 				});
 			}
 		});
+
+		productData?.variation_attributes?.forEach((attribute) => {
+			if (attribute.id === 'size') {
+				attribute.values.forEach((value) => sizeData.push(value));
+			}
+		});
+
 		setallCarouselImages(carouselImages);
 		setSwatchImageData(swatchImages);
+		setSizeData(sizeData);
 	}, [productData]);
 
 	const addItemToCart = () => {
@@ -79,7 +89,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 		value: string | null
 	): boolean => {
 		let exists: boolean = false;
-		productData?.variation_attributes.forEach((attribute) => {
+		productData?.variation_attributes?.forEach((attribute) => {
 			if (attribute.id === type) {
 				attribute.values.forEach((item) => {
 					if (item.value === value && item.orderable) {
@@ -134,19 +144,14 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 		/>
 	));
 
-	const sizes = productData?.variation_attributes.forEach(
-		(attribute) => {
-			if (attribute.id === 'size') {
-				attribute.values.map((size) => (
-					<Button
-						data-value={size.value}
-						onClick={size.orderable ? (e) => changeSize(e) : undefined}>
-						{size.name}
-					</Button>
-				));
-			}
-		}
-	);
+	const sizes = sizeData?.map((size, index) => (
+		<Button
+			key={index}
+			data-value={size.value}
+			onClick={size.orderable ? (e) => changeSize(e) : undefined}>
+			{size.name}
+		</Button>
+	));
 
 	return (
 		<>
@@ -180,6 +185,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 							<Box>
 								Product Price: {productData.price} {productData.currency}
 							</Box>
+							{sizes?.length !== 0 && <Box>{sizes}</Box>}
 							<Flex gap='10px'>
 								<Box>Product Quantity:</Box>
 								<Button
@@ -187,7 +193,6 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 									onClick={decreaseQuantity}>
 									-
 								</Button>
-								<Box>{sizes}</Box>
 								<Box>{quantity}</Box>
 								<Button
 									size='xs'
