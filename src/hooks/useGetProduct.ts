@@ -1,4 +1,4 @@
-import { IData } from '@data-types';
+import { IProduct } from '@data-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { clientID, shopAPI } from '../config/httpConfig';
@@ -7,7 +7,7 @@ const proxy = 'https://corsproxy.io/?';
 
 export const useGetProduct = () => {
 	const [productID, setProductId] = useState<string>('');
-	const [dataSet, setDataSet] = useState<IData | null>(null);
+	const [dataSet, setDataSet] = useState<IProduct | null>(null);
 	const [dataError, setDataError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -19,10 +19,11 @@ export const useGetProduct = () => {
 		if (productID) {
 			setLoading(true)
 			axios
-				.get<IData>(
+				.get<IProduct>(
 					`${proxy}${shopAPI}/products/${productID}?all_images=true&expand=prices%2Cimages&client_id=${clientID}`
 				)
 				.then((res) => {
+					console.log(res.data)
 					setDataSet(res.data);
 					setDataError('')
 					setLoading(false)

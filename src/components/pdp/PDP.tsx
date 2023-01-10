@@ -17,11 +17,15 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 
 	useEffect(() => {
 		let images: Image[] = [];
-		productData?.image_groups.forEach((group: ImageGroup) => {
-			if (group.view_type === 'large' && group.variation_attributes) {
-				group.images.forEach((image) => {
-					images.push(image);
-				});
+		productData?.image_groups?.forEach((group: ImageGroup) => {
+			if (productData.type.variant && productData.type.variant === true) {
+				if (group.view_type === 'large' && group.variation_attributes) {
+					group.images.forEach((image) => images.push(image));
+				}
+			} else {
+				if (group.view_type === 'large') {
+					group.images.forEach((image) => images.push(image));
+				}
 			}
 		});
 		setImageData(images);

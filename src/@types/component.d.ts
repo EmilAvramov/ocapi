@@ -1,4 +1,5 @@
 declare module '@component-types' {
+	import { IData } from "@data-types";
 	interface IPDP {
 		productData: IData | null;
 		loading: boolean;

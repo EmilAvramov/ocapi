@@ -1,5 +1,5 @@
 declare module '@data-types' {
-	interface IData {
+	interface IProduct {
 		_type: string;
 		_v: string;
 		c_color: string;
@@ -18,6 +18,9 @@ declare module '@data-types' {
 		type: {
 			_type: string;
 			variant: boolean;
+			bundle: boolean;
+			set: boolean;
+			item: boolean;
 		};
 		unit_measure: string;
 		unit_quantity: number;
