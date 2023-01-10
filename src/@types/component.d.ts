@@ -1,7 +1,7 @@
 declare module '@component-types' {
-	import { IData } from "@data-types";
+	import { IProduct } from "@product-types";
 	interface IPDP {
-		productData: IData | null;
+		productData: IProduct | null;
 		loading: boolean;
 	}
 

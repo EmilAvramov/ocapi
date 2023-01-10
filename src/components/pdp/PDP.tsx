@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Image as CImage } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 
 import { IPDP } from '@component-types';
-import { Image, ImageGroup, IProduct } from '@product-types';
+import { ImageGroup, IProduct } from '@product-types';
+import { ImageModel } from '@compound-types';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -14,42 +15,138 @@ import { UseCart } from '../../contexts/Cart.context';
 
 export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [quantity, setQuantity] = useState<number>(0);
-	const [imageData, setImageData] = useState<Image[] | null>(null);
+	const [variantColor, setVariantColor] = useState<string | null>(null);
+	const [variantSize, setVariantSize] = useState<string | null>(null);
+	const [allCarouselImages, setallCarouselImages] = useState<
+		ImageModel[] | null
+	>(null);
+	const [swatchImageData, setSwatchImageData] = useState<ImageModel[] | null>(
+		null
+	);
 	const { addItem, count } = UseCart();
 
 	useEffect(() => {
-		let images: Image[] = [];
+		let carouselImages: ImageModel[] = [];
+		let swatchImages: ImageModel[] = [];
 		productData?.image_groups?.forEach((group: ImageGroup) => {
-			if (productData.type.variant && productData.type.variant === true) {
-				if (group.view_type === 'large' && group.variation_attributes) {
-					group.images.forEach((image) => images.push(image));
-				}
-			} else {
-				if (group.view_type === 'large') {
-					group.images.forEach((image) => images.push(image));
-				}
+			if (group.view_type === 'large' || group.view_type === 'swatch') {
+				group.images.forEach((image) => {
+					let dataImage: ImageModel = {
+						link: image.link,
+						alt: image.alt,
+						title: image.title,
+						attribute: group.variation_attributes
+							? group.variation_attributes[0].id
+							: null,
+						value: group.variation_attributes
+							? group.variation_attributes[0].values[0].value
+							: null,
+					};
+					if (group.view_type === 'large') {
+						carouselImages.push(dataImage);
+					} else {
+						swatchImages.push(dataImage);
+					}
+				});
 			}
 		});
-		setImageData(images);
+		setallCarouselImages(carouselImages);
+		setSwatchImageData(swatchImages);
 	}, [productData]);
 
 	const addItemToCart = () => {
-		const product: IProduct = productData;
-		product.unit_quantity = quantity;
-		addItem(product);
+		if (productData) {
+			const product: IProduct = productData;
+			product.unit_quantity = quantity;
+			addItem(product);
+		}
 	};
 
 	const increaseQuantity = () => {
-		if (quantity !== 10) {
-			setQuantity((prev) => prev + 1);
+		if (quantity !== 10 && productData?.step_quantity) {
+			setQuantity((prev) => prev + productData.step_quantity);
 		}
 	};
 
 	const decreaseQuantity = () => {
-		if (quantity !== 0) {
-			setQuantity((prev) => prev - 1);
+		if (quantity !== 0 && productData?.step_quantity) {
+			setQuantity((prev) => prev - productData.step_quantity);
 		}
 	};
+
+	const checkAttributeAvailable = (
+		type: string,
+		value: string | null
+	): boolean => {
+		let exists: boolean = false;
+		productData?.variation_attributes.forEach((attribute) => {
+			if (attribute.id === type) {
+				attribute.values.forEach((item) => {
+					if (item.value === value && item.orderable) {
+						exists = true;
+					}
+				});
+			}
+		});
+		if (exists) {
+			return true;
+		}
+		return false;
+	};
+
+	const changeColor = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+		if (e.currentTarget.dataset.value) {
+			setVariantColor(e.currentTarget.dataset.value);
+		}
+	};
+
+	const changeSize = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		if (e.currentTarget.dataset.value) {
+			setVariantSize(e.currentTarget.dataset.value);
+		}
+	};
+
+	const carouselImages = allCarouselImages
+		?.filter((image) => image.value === variantColor)
+		.map((image, index) => (
+			<SwiperSlide key={index}>
+				<img
+					src={image.link}
+					alt={image.alt}
+					title={image.title}
+					data-value={image.value}
+				/>
+			</SwiperSlide>
+		));
+
+	const swatchImages = swatchImageData?.map((image, index) => (
+		<CImage
+			key={index}
+			src={image.link}
+			alt={image.alt}
+			title={image.title}
+			data-value={image.value}
+			onClick={
+				checkAttributeAvailable('color', image.value) === true
+					? (e) => changeColor(e)
+					: undefined
+			}
+		/>
+	));
+
+	const sizes = productData?.variation_attributes.forEach(
+		(attribute) => {
+			if (attribute.id === 'size') {
+				attribute.values.map((size) => (
+					<Button
+						data-value={size.value}
+						onClick={size.orderable ? (e) => changeSize(e) : undefined}>
+						{size.name}
+					</Button>
+				));
+			}
+		}
+	);
 
 	return (
 		<>
@@ -66,14 +163,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 							slidesPerView={1}
 							navigation={true}
 							className={styles['swiper__container']}>
-							{imageData?.map((image, index) => (
-								<SwiperSlide key={index}>
-									<img
-										src={image.link}
-										alt={image.alt}
-									/>
-								</SwiperSlide>
-							))}
+							{carouselImages}
 						</Swiper>
 					</Box>
 
@@ -84,6 +174,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 							flexDirection='column'
 							gap='30px'
 							justifyContent='center'>
+							<Flex>{swatchImages}</Flex>
 							<Box>Product ID: {productData.id}</Box>
 							<Box>Product Name: {productData.name}</Box>
 							<Box>
@@ -96,6 +187,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 									onClick={decreaseQuantity}>
 									-
 								</Button>
+								<Box>{sizes}</Box>
 								<Box>{quantity}</Box>
 								<Button
 									size='xs'
