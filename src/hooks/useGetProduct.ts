@@ -1,4 +1,4 @@
-import { IData } from '@component-types';
+import { IData } from '@data-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { clientID, shopAPI } from '../config/httpConfig';
@@ -23,7 +23,6 @@ export const useGetProduct = () => {
 					`${proxy}${shopAPI}/products/${productID}?all_images=true&expand=prices%2Cimages&client_id=${clientID}`
 				)
 				.then((res) => {
-					console.log(res)
 					setDataSet(res.data);
 					setDataError('')
 					setLoading(false)

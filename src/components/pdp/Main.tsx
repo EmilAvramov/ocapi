@@ -18,7 +18,6 @@ export const Main = () => {
 			) : (
 				<PDP
 					productData={dataSet}
-					dataError={dataError}
 					loading={loading}
 				/>
 			)}

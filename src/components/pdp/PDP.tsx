@@ -1,25 +1,23 @@
-import { Image as ImageI, IPDP } from '@component-types';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
+
+import { IPDP } from '@component-types';
+import { Image, ImageGroup } from '@data-types';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import styles from './PDP.module.scss';
-import { Box, Button, Flex } from '@chakra-ui/react';
 
-export const PDP: FC<IPDP> = ({
-	productData,
-	dataError,
-	loading,
-}): JSX.Element => {
-	const [quantity, setQuantity] = useState<number | undefined>(
-		productData?.unit_quantity
-	);
-	const [imageData, setImageData] = useState<ImageI[] | null>(null);
+export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
+	const [quantity, setQuantity] = useState<number>(0);
+	const [imageData, setImageData] = useState<Image[] | null>(null);
 
 	useEffect(() => {
-		let images: ImageI[] = [];
-		productData?.image_groups.forEach((group) => {
+		let images: Image[] = [];
+		productData?.image_groups.forEach((group: ImageGroup) => {
 			if (group.view_type === 'large' && group.variation_attributes) {
 				group.images.forEach((image) => {
 					images.push(image);
@@ -27,32 +25,19 @@ export const PDP: FC<IPDP> = ({
 			}
 		});
 		setImageData(images);
-		console.log(images);
 	}, [productData]);
 
 	const increaseQuantity = () => {
 		if (quantity !== 10) {
-			setQuantity((prev) => {
-				if (prev) {
-					prev++;
-				}
-				return prev
-			});
+			setQuantity((prev) => prev + 1);
 		}
 	};
 
 	const decreaseQuantity = () => {
 		if (quantity !== 0) {
-			setQuantity((prev) => {
-				if (prev) {
-					prev--;
-				}
-				return prev
-			});
+			setQuantity((prev) => prev - 1);
 		}
 	};
-
-	console.log(productData);
 
 	return (
 		<>
