@@ -1,7 +1,10 @@
 import { Box, List, ListItem, Heading, Flex, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { UseCart } from '../../contexts/Cart.context';
 
 export const Header = () => {
+	const { count } = UseCart();
+
 	return (
 		<Flex
 			as='nav'
@@ -9,7 +12,7 @@ export const Header = () => {
 			align='center'
 			justify='space-between'
 			width='90%'
-            height='10vh'
+			height='10vh'
 			wrap='wrap'
 			padding={6}
 			bg='gray.500'
@@ -43,7 +46,17 @@ export const Header = () => {
 				<Button
 					variant='outline'
 					_hover={{ bg: 'teal.700', borderColor: 'teal.700' }}>
-					Open Cart
+					<i
+						className='fa fa-shopping-bag'
+						aria-hidden='true'></i>
+					<Box
+						as='div'
+						position='absolute'
+						right='0'
+						top='0'
+						color='black'>
+						{count}
+					</Box>
 				</Button>
 			</Box>
 		</Flex>

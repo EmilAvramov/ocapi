@@ -1,4 +1,4 @@
-import { IProduct } from '@data-types';
+import { IProduct } from '@product-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { clientID, shopAPI } from '../config/httpConfig';
@@ -20,7 +20,7 @@ export const useGetProduct = () => {
 			setLoading(true)
 			axios
 				.get<IProduct>(
-					`${proxy}${shopAPI}/products/${productID}?all_images=true&expand=prices%2Cimages&client_id=${clientID}`
+					`${proxy}${shopAPI}/products/${productID}?expand=prices%2Cvariations%2Cimages%2Cavailability%2Coptions%2Cbundled_products%2Cpromotions&all_images=true&client_id=${clientID}`
 				)
 				.then((res) => {
 					console.log(res.data)

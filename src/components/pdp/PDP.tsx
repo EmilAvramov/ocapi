@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 
 import { IPDP } from '@component-types';
-import { Image, ImageGroup, IProduct } from '@data-types';
+import { Image, ImageGroup, IProduct } from '@product-types';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -15,7 +15,7 @@ import { UseCart } from '../../contexts/Cart.context';
 export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [quantity, setQuantity] = useState<number>(0);
 	const [imageData, setImageData] = useState<Image[] | null>(null);
-	const { addItem } = UseCart()
+	const { addItem, count } = UseCart();
 
 	useEffect(() => {
 		let images: Image[] = [];
@@ -34,10 +34,10 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	}, [productData]);
 
 	const addItemToCart = () => {
-		const product:IProduct = productData
-		product.unit_quantity = quantity
-		addItem(product)
-	}
+		const product: IProduct = productData;
+		product.unit_quantity = quantity;
+		addItem(product);
+	};
 
 	const increaseQuantity = () => {
 		if (quantity !== 10) {
@@ -104,7 +104,22 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 								</Button>
 							</Flex>
 						</Flex>
-						<Button marginTop='2%' onClick={addItemToCart} disabled={quantity === 0}>Add to Cart</Button>
+						<Flex
+							as='div'
+							gap='30px'>
+							<Button
+								marginTop='2%'
+								onClick={addItemToCart}
+								disabled={quantity === 0}>
+								Add to Cart
+							</Button>
+							<Button
+								marginTop='2%'
+								display={count === 0 ? 'none' : 'block'}
+								disabled={quantity === 0}>
+								Checkout
+							</Button>
+						</Flex>
 					</Box>
 				</Flex>
 			)}

@@ -1,5 +1,5 @@
 import { CartChildren } from '@context-types';
-import { IProduct } from '@data-types';
+import { IProduct } from '@product-types';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const useValue = () => {
