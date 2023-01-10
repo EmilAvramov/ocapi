@@ -6,7 +6,11 @@ declare module '@component-types' {
 	}
 
 	interface ISearch {
-		search: (id:string) => void
+		search: (id: string) => void;
+	}
+
+	interface IError {
+		error: string;
 	}
 
 	interface IData {
@@ -16,6 +20,7 @@ declare module '@component-types' {
 		c_refinementColor: string;
 		c_size: string;
 		c_width: string;
+		currency: string;
 		id: string;
 		long_description: string;
 		min_order_quantity: number;
@@ -31,6 +36,8 @@ declare module '@component-types' {
 		unit_measure: string;
 		unit_quantity: number;
 		upc: string;
+		price: number;
+		price_per_unit: number;
 		image_groups: ImageGroup[];
 	}
 
@@ -38,7 +45,7 @@ declare module '@component-types' {
 		_type: string;
 		images: Image[];
 		view_type: string;
-		variation_attributes: null | VariationAttribute[]
+		variation_attributes: null | VariationAttribute[];
 	}
 
 	interface Image {
@@ -52,7 +59,7 @@ declare module '@component-types' {
 	interface VariationAttribute {
 		_type: string;
 		id: string;
-		values: Value[]
+		values: Value[];
 	}
 
 	interface Value {

@@ -20,14 +20,21 @@ export const useGetProduct = () => {
 			setLoading(true)
 			axios
 				.get<IData>(
-					`${proxy}${shopAPI}/products/${productID}/images?all_images=true&view_type=large&client_id=${clientID}`
+					`${proxy}${shopAPI}/products/${productID}?all_images=true&expand=prices%2Cimages&client_id=${clientID}`
 				)
-				.then(({ data }) => {
-					setDataSet(data);
+				.then((res) => {
+					console.log(res)
+					setDataSet(res.data);
+					setDataError('')
 					setLoading(false)
 				})
-				.catch((err: any) => {
-					setDataError(err);
+				.catch((err) => {
+					if (err.response.status === 404) {
+						setDataError(`No product with ID ${productID} could be found.`);
+					} else {
+						setDataError(`Something went wrong, please try again. Status code: ${err.response.status}`)
+					}
+					
 					setLoading(false)
 				});
 		}

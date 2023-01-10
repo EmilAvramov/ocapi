@@ -16,7 +16,7 @@ const Router = () => {
 				<Route path='/' element={<Main />}></Route>
 				<Route path='checkout' element={<Checkout />}></Route>
 				<Route path='cart' element={<Cart />}></Route>
-                <Route path='*' element={<NotFound/>}></Route>
+                <Route path='*' element={<NotFound error={''}/>}></Route>
 			</Routes>
 			<Footer />
 		</>
