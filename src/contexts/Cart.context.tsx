@@ -1,23 +1,8 @@
 import { BasketItem } from '@compound-types';
-import { CartChildren } from '@context-types';
+import { CartChildren, ICartContext } from '@context-types';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const useValue = () => {
-	const [items, setItem] = useState<BasketItem[] | []>([]);
-	const [count, setCount] = useState<number>(0);
-
-	const addItem = (item: BasketItem) => {
-		setItem((items) => [...items, item]);
-	};
-
-	useEffect(() => {
-		setCount(items?.length);
-	}, [items]);
-
-    return { items, count, addItem}
-}
-
-const CartContext = createContext({} as ReturnType<typeof useValue>);
+const CartContext = createContext<ICartContext | null>(null);
 
 export const UseCart = () => useContext(CartContext);
 
@@ -26,11 +11,13 @@ export const CartProvider: React.FC<CartChildren> = ({ children }) => {
 	const [count, setCount] = useState<number>(0);
 
 	const addItem = (item: BasketItem) => {
-		setItem((items) => [...items, item]);
+		console.log(item)
+		setItem((oldData: BasketItem[]) => [item, ...oldData]);
 	};
 
 	useEffect(() => {
 		setCount(items?.length);
+		console.log(items)
 	}, [items]);
 
 	return (

@@ -1,9 +1,10 @@
 import { Box, List, ListItem, Heading, Flex, Button } from '@chakra-ui/react';
+import { ICartContext } from '@context-types';
 import { Link } from 'react-router-dom';
 import { UseCart } from '../../contexts/Cart.context';
 
 export const Header = () => {
-	const { count } = UseCart();
+	const { count } = UseCart() as ICartContext;;
 
 	return (
 		<Flex

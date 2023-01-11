@@ -1,6 +1,7 @@
 import { Flex, Button } from '@chakra-ui/react';
 import { IPDPButtons } from '@component-types';
 import { BasketItem } from '@compound-types';
+import { ICartContext } from '@context-types';
 import { useState } from 'react';
 import { UseCart } from '../../../contexts/Cart.context';
 
@@ -10,7 +11,7 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 	color,
 	size,
 }): JSX.Element => {
-	const { addItem, count } = UseCart();
+	const { count, addItem } = UseCart() as ICartContext;
 	const [product, setProduct] = useState<BasketItem>({ id: '', quantity: 0 });
 
 	const addItemToCart = () => {
@@ -27,6 +28,7 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 		});
 		setProduct(product);
 		if (product.id !== '' && product.quantity !== 0) {
+			console.log(product)
 			addItem(product);
 		}
 	};
