@@ -3,5 +3,6 @@ const dataAPI = 'https://zydc-001.dx.commercecloud.salesforce.com/s/RefArch/dw/d
 const headers = {'content-type': 'application/json'}
 const clientID = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 const proxy = 'https://corsproxy.io/?';
+const authEndPoint = 'https://zydc-001.dx.commercecloud.salesforce.com/s/RefArch/dw/shop/v23_1/customers/auth?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 
-export { shopAPI, dataAPI, headers, clientID, proxy }
+export { shopAPI, dataAPI, headers, clientID, proxy, authEndPoint }
