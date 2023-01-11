@@ -8,11 +8,10 @@ export const PDPInformation: React.FC<IPDPInformation> = ({
 		<>
 			{masterData && (
 				<>
-					<Box>Product ID: {masterData.id}</Box>
-					<Box>Product Name: {masterData.name}</Box>
-					<Box>
-						Product Price: {masterData.price} {masterData.currency}
-					</Box>
+					<Box>ID: {masterData.id}</Box>
+					<Box>Name: {masterData.name}</Box>
+					<Box width='60%'>Description: {masterData.long_description}</Box>
+					<Box>Price: {masterData.price} {masterData.currency}</Box>
 				</>
 			)}
 		</>

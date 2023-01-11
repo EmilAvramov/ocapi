@@ -1,9 +1,7 @@
 import { IProduct } from '@product-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { clientID, shopAPI } from '../config/httpConfig';
-
-const proxy = 'https://corsproxy.io/?';
+import { clientID, shopAPI, proxy } from '../config/httpConfig';
 
 export const useGetProduct = () => {
 	const [productID, setProductId] = useState<string>('');
