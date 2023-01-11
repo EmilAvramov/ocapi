@@ -15,25 +15,27 @@ export const useGetProduct = () => {
 
 	useEffect(() => {
 		if (productID) {
-			setLoading(true)
+			setLoading(true);
 			axios
 				.get<IProduct>(
-					`${proxy}${shopAPI}/products/${productID}?expand=prices%2Cvariations%2Cimages%2Cavailability%2Coptions%2Cbundled_products%2Cpromotions&all_images=true&client_id=${clientID}`
+					`${proxy}${shopAPI}/products/${productID}?expand=prices%2Cvariations%2Cimages%2Cavailability%2Coptions%2Cbundled_products%2Cpromotions&all_images=true&${clientID}`
 				)
 				.then((res) => {
-					console.log(res.data)
+					console.log(res.data);
 					setDataSet(res.data);
-					setDataError('')
-					setLoading(false)
+					setDataError('');
+					setLoading(false);
 				})
 				.catch((err) => {
 					if (err.response.status === 404) {
 						setDataError(`No product with ID ${productID} could be found.`);
 					} else {
-						setDataError(`Something went wrong, please try again. Status code: ${err.response.status}`)
+						setDataError(
+							`Something went wrong, please try again. Status code: ${err.response.status}`
+						);
 					}
-					
-					setLoading(false)
+
+					setLoading(false);
 				});
 		}
 	}, [productID]);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { proxy, shopAPI } from '../config/httpConfig';
+import { clientID, proxy, shopAPI } from '../config/httpConfig';
 
 export const useGetContent = () => {
 	const [contentID, setContentID] = useState<string | null>('links');
@@ -16,9 +16,7 @@ export const useGetContent = () => {
 		if (contentID) {
 			setLoading(true);
 			axios
-				.get(
-					`${proxy}${shopAPI}/content/${contentID}?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
-				)
+				.get(`${proxy}${shopAPI}/content/${contentID}?${clientID}`)
 				.then((res) => {
 					setDataSet(res.data);
 					setDataError('');
