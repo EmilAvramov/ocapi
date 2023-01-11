@@ -86,9 +86,9 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 							flexDirection='column'
 							gap='30px'
 							justifyContent='center'>
-							<PDPSwatches masterData={productData} swatches={swatchImageData} setColor={setVariantColor}/>
 							<PDPInformation masterData={productData}/>
-							<PDPSizes sizeData={sizeData} setSize={setVariantSize}/>
+							<PDPSwatches masterData={productData} color={variantColor} swatches={swatchImageData} setColor={setVariantColor}/>
+							<PDPSizes sizeData={sizeData} size={variantSize} setSize={setVariantSize}/>
 							<PDPQuantity masterData={productData} setQuantity={setQuantity} quantity={quantity}/>
 						</Flex>
 						<PDPButtons masterData={productData} quantity={quantity} color={variantColor} size={variantSize}/>

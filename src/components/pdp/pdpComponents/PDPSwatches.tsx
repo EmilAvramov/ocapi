@@ -2,6 +2,7 @@ import { Flex, Image } from '@chakra-ui/react';
 import { IPDPSwatches } from '@component-types';
 
 export const PDPSwatches: React.FC<IPDPSwatches> = ({
+	color,
 	setColor,
 	masterData,
 	swatches,
@@ -39,6 +40,9 @@ export const PDPSwatches: React.FC<IPDPSwatches> = ({
 			alt={image.alt}
 			title={image.title}
 			data-value={image.value}
+			borderRadius='full'
+			boxSize='50px'
+			border={color === image.value ? 'dashed' : 'none'}
 			onClick={
 				checkAttributeAvailable('color', image.value) === true
 					? (e) => changeColor(e)
@@ -47,5 +51,5 @@ export const PDPSwatches: React.FC<IPDPSwatches> = ({
 		/>
 	));
 
-	return <Flex>{swatchImages}</Flex>;
+	return <Flex gap='10px'>{swatchImages}</Flex>;
 };

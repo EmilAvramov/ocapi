@@ -20,12 +20,14 @@ declare module '@component-types' {
 	}
 
 	interface IPDPSwatches {
+		color: string | null;
 		swatches: ImageModel[] | null;
 		masterData: IProduct | null;
 		setColor: React.Dispatch<React.SetStateAction<string | null>>
 	}
 
 	interface IPDPSizes {
+		size: string | null;
 		sizeData: ValuesVAP[] | null;
 		setSize: React.Dispatch<React.SetStateAction<string | null>>;
 	}
