@@ -1,3 +1,4 @@
+import { IBasket } from '@basket-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { clientID, proxy, shopAPI } from '../config/httpConfig';
@@ -10,7 +11,7 @@ export const useBasket = () => {
 	useEffect(() => {
 		if (token) {
 			axios
-				.post(
+				.post<IBasket>(
 					`${proxy}${shopAPI}/baskets?${clientID}`,
 					{},
 					{
@@ -27,7 +28,7 @@ export const useBasket = () => {
 					console.log(err);
 				});
 		}
-	}, []);
+	}, [token]);
 
 	return { dataSets };
 };

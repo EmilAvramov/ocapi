@@ -1,6 +1,6 @@
 declare module '@basket-types' {
 	interface IBasket {
-		_flash: {};
+		_flash: IFlash[];
 		_resource_state: string;
 		_type: string;
 		_v: string;
@@ -63,4 +63,11 @@ declare module '@basket-types' {
 		tax_class_id: number;
 		tax_rate: number;
 	}
+
+    interface IFlash {
+        _type: string;
+        message: string;
+        path: string;
+        type: string;
+    }
 }
