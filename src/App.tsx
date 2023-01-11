@@ -2,14 +2,17 @@ import { BrowserRouter } from 'react-router-dom';
 import Router from './components/Router';
 import { ChakraProvider } from '@chakra-ui/react';
 import { CartProvider } from './contexts/Cart.context';
+import { AuthProvider } from './contexts/Auth.context';
 
 const App = () => {
 	return (
 		<BrowserRouter>
 			<ChakraProvider>
-				<CartProvider>
-					<Router />
-				</CartProvider>
+				<AuthProvider>
+					<CartProvider>
+						<Router />
+					</CartProvider>
+				</AuthProvider>
 			</ChakraProvider>
 		</BrowserRouter>
 	);
