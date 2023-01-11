@@ -6,4 +6,9 @@ declare module '@compound-types' {
         attribute: string | null
         value: string | null;
     }
+
+    interface BasketItem {
+        id: string;
+        quantity: number;
+    }
 }

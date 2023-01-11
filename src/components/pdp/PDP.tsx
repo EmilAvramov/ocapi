@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import { Box, Button, Flex, Image as CImage } from '@chakra-ui/react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper';
+import { Box, Flex } from '@chakra-ui/react';
 
 import { IPDP } from '@component-types';
-import { ImageGroup, IProduct, ValuesVAP } from '@product-types';
+import { ImageGroup, ValuesVAP } from '@product-types';
 import { ImageModel } from '@compound-types';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import styles from './PDP.module.scss';
-import { UseCart } from '../../contexts/Cart.context';
+import { PDPCarousel } from './pdpComponents/PDPCarousel';
+import { PDPSwatches } from './pdpComponents/PDPSwatches';
+import { PDPSizes } from './pdpComponents/PDPSizes';
+import { PDPQuantity } from './pdpComponents/PDPQuantity';
+import { PDPButtons } from './pdpComponents/PDPButtons';
+import { PDPInformation } from './pdpComponents/PDPInformation';
 
 export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [quantity, setQuantity] = useState<number>(0);
@@ -24,7 +26,6 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [swatchImageData, setSwatchImageData] = useState<ImageModel[] | null>(
 		null
 	);
-	const { addItem, count } = UseCart();
 
 	useEffect(() => {
 		let carouselImages: ImageModel[] = [];
@@ -62,96 +63,8 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 		setallCarouselImages(carouselImages);
 		setSwatchImageData(swatchImages);
 		setSizeData(sizeData);
+		setQuantity(0)
 	}, [productData]);
-
-	const addItemToCart = () => {
-		if (productData) {
-			const product: IProduct = productData;
-			product.unit_quantity = quantity;
-			addItem(product);
-		}
-	};
-
-	const increaseQuantity = () => {
-		if (quantity !== 10 && productData?.step_quantity) {
-			setQuantity((prev) => prev + productData.step_quantity);
-		}
-	};
-
-	const decreaseQuantity = () => {
-		if (quantity !== 0 && productData?.step_quantity) {
-			setQuantity((prev) => prev - productData.step_quantity);
-		}
-	};
-
-	const checkAttributeAvailable = (
-		type: string,
-		value: string | null
-	): boolean => {
-		let exists: boolean = false;
-		productData?.variation_attributes?.forEach((attribute) => {
-			if (attribute.id === type) {
-				attribute.values.forEach((item) => {
-					if (item.value === value && item.orderable) {
-						exists = true;
-					}
-				});
-			}
-		});
-		if (exists) {
-			return true;
-		}
-		return false;
-	};
-
-	const changeColor = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-		if (e.currentTarget.dataset.value) {
-			setVariantColor(e.currentTarget.dataset.value);
-		}
-	};
-
-	const changeSize = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		if (e.currentTarget.dataset.value) {
-			setVariantSize(e.currentTarget.dataset.value);
-		}
-	};
-
-	const carouselImages = allCarouselImages
-		?.filter((image) => image.value === variantColor)
-		.map((image, index) => (
-			<SwiperSlide key={index}>
-				<img
-					src={image.link}
-					alt={image.alt}
-					title={image.title}
-					data-value={image.value}
-				/>
-			</SwiperSlide>
-		));
-
-	const swatchImages = swatchImageData?.map((image, index) => (
-		<CImage
-			key={index}
-			src={image.link}
-			alt={image.alt}
-			title={image.title}
-			data-value={image.value}
-			onClick={
-				checkAttributeAvailable('color', image.value) === true
-					? (e) => changeColor(e)
-					: undefined
-			}
-		/>
-	));
-
-	const sizes = sizeData?.map((size, index) => (
-		<Button
-			key={index}
-			data-value={size.value}
-			onClick={size.orderable ? (e) => changeSize(e) : undefined}>
-			{size.name}
-		</Button>
-	));
 
 	return (
 		<>
@@ -163,13 +76,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 					<Box
 						as='div'
 						flexBasis='100%'>
-						<Swiper
-							modules={[Navigation]}
-							slidesPerView={1}
-							navigation={true}
-							className={styles['swiper__container']}>
-							{carouselImages}
-						</Swiper>
+						<PDPCarousel color={variantColor} images={allCarouselImages}/>
 					</Box>
 
 					<Box
@@ -179,44 +86,12 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 							flexDirection='column'
 							gap='30px'
 							justifyContent='center'>
-							<Flex>{swatchImages}</Flex>
-							<Box>Product ID: {productData.id}</Box>
-							<Box>Product Name: {productData.name}</Box>
-							<Box>
-								Product Price: {productData.price} {productData.currency}
-							</Box>
-							{sizes?.length !== 0 && <Box>{sizes}</Box>}
-							<Flex gap='10px'>
-								<Box>Product Quantity:</Box>
-								<Button
-									size='xs'
-									onClick={decreaseQuantity}>
-									-
-								</Button>
-								<Box>{quantity}</Box>
-								<Button
-									size='xs'
-									onClick={increaseQuantity}>
-									+
-								</Button>
-							</Flex>
+							<PDPSwatches masterData={productData} swatches={swatchImageData} setColor={setVariantColor}/>
+							<PDPInformation masterData={productData}/>
+							<PDPSizes sizeData={sizeData} setSize={setVariantSize}/>
+							<PDPQuantity masterData={productData} setQuantity={setQuantity} quantity={quantity}/>
 						</Flex>
-						<Flex
-							as='div'
-							gap='30px'>
-							<Button
-								marginTop='2%'
-								onClick={addItemToCart}
-								disabled={quantity === 0}>
-								Add to Cart
-							</Button>
-							<Button
-								marginTop='2%'
-								display={count === 0 ? 'none' : 'block'}
-								disabled={quantity === 0}>
-								Checkout
-							</Button>
-						</Flex>
+						<PDPButtons masterData={productData} quantity={quantity} color={variantColor} size={variantSize}/>
 					</Box>
 				</Flex>
 			)}

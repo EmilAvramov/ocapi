@@ -1,5 +1,6 @@
 declare module '@component-types' {
 	import { IProduct } from "@product-types";
+	import { ImageModel } from '@compound-types'
 	interface IPDP {
 		productData: IProduct | null;
 		loading: boolean;
@@ -13,5 +14,36 @@ declare module '@component-types' {
 		error: string;
 	}
 
+	interface IPDPCarousel {
+		color: string | null;
+		images: ImageModel[] | null;
+	}
 
+	interface IPDPSwatches {
+		swatches: ImageModel[] | null;
+		masterData: IProduct | null;
+		setColor: React.Dispatch<React.SetStateAction<string | null>>
+	}
+
+	interface IPDPSizes {
+		sizeData: ValuesVAP[] | null;
+		setSize: React.Dispatch<React.SetStateAction<string | null>>;
+	}
+
+	interface IPDPQuantity {
+		masterData: IProduct | null;
+		quantity: number;
+		setQuantity: React.Dispatch<React.SetStateAction<number>>;
+	}
+
+	interface IPDPButtons {
+		masterData: IProduct | null;
+		quantity: number;
+		size: string | null;
+		color: string | null;
+	}
+
+	interface IPDPInformation {
+		masterData: IProduct | null;
+	}
 }
