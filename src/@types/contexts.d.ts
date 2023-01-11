@@ -7,6 +7,6 @@ declare module '@context-types' {
 	interface ICartContext {
 		items: BasketItem[] | [];
 		count: number;
-		addItem: (item: BasketItem) => void
+		setNewItem: React.Dispatch<React.SetStateAction<BasketItem | null>>
 	}
 }

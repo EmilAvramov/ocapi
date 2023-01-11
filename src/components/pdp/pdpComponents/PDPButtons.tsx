@@ -11,25 +11,24 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 	color,
 	size,
 }): JSX.Element => {
-	const { count, addItem } = UseCart() as ICartContext;
-	const [product, setProduct] = useState<BasketItem>({ id: '', quantity: 0 });
+	const { count, setNewItem } = UseCart() as ICartContext;
+	const [product, setProduct] = useState<BasketItem | null>(null);
 
-	const addItemToCart = () => {
+	const addItemToCart = (newProduct: BasketItem) => {
 		masterData?.variants.forEach((variant) => {
 			if (variant.orderable) {
 				if (
 					variant.variation_values.color === color &&
 					variant.variation_values.size === size
 				) {
-					product.id = variant.product_id;
-					product.quantity = quantity;
+					newProduct.id = variant.product_id;
 				}
 			}
 		});
 		setProduct(product);
-		if (product.id !== '' && product.quantity !== 0) {
-			console.log(product)
-			addItem(product);
+		if (newProduct.id !== '' && newProduct.quantity !== 0) {
+			setNewItem(newProduct);
+			setProduct(null)
 		}
 	};
 
@@ -39,7 +38,7 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 			gap='30px'>
 			<Button
 				marginTop='2%'
-				onClick={addItemToCart}
+				onClick={() => addItemToCart({id: '', quantity})}
 				disabled={quantity === 0 || color === null || size === null}>
 				Add to Cart
 			</Button>
