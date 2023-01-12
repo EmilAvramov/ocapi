@@ -13,7 +13,7 @@ export const useCreateBasket = () => {
 	const [dataError, setDataError] = useState<string | null>(null);
     const [created, setCreated] = useState<boolean>(false);
 
-	const makeCreateRequest = (token: string) => {
+	const makeCreateRequest = (token: string | null) => {
 		setToken(token)
 	}
 

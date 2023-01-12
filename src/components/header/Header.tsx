@@ -1,7 +1,10 @@
 import { Box, List, ListItem, Heading, Flex, Button } from '@chakra-ui/react';
+import { IBasketContext } from '@context-types';
 import { Link } from 'react-router-dom';
+import { UseBasket } from '../../contexts/Basket.context';
 
 export const Header = () => {
+	const { count } = UseBasket() as IBasketContext;
 
 	return (
 		<Flex
@@ -53,7 +56,7 @@ export const Header = () => {
 						right='0'
 						top='0'
 						color='black'>
-						{0}
+						{count}
 					</Box>
 				</Button>
 			</Box>

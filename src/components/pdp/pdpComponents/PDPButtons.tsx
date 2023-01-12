@@ -2,22 +2,20 @@ import { Flex, Button } from '@chakra-ui/react';
 import { IPDPButtons } from '@component-types';
 import { BasketItem } from '@compound-types';
 import { IBasketContext } from '@context-types';
-import { useState } from 'react';
 import { UseBasket } from '../../../contexts/Basket.context';
 import { useCreateBasket } from '../../../hooks/useCreateBasket';
-import { useUpdateBasketItems } from '../../../hooks/useUpdateBasketItems';
+import { useUpdateBasket } from '../../../hooks/useUpdateBasket';
 
 export const PDPButtons: React.FC<IPDPButtons> = ({
 	masterData,
 	quantity,
 	color,
 	size,
-	token
+	token,
 }): JSX.Element => {
-	const [product, setProduct] = useState<BasketItem | null>(null);
-	const { basket } = UseBasket() as IBasketContext
-	const { makeCreateRequest } = useCreateBasket()
-	const { setItemsToAdd } = useUpdateBasketItems()
+	const { basket, count } = UseBasket() as IBasketContext;
+	const { makeCreateRequest } = useCreateBasket();
+	const { makeUpdateRequest } = useUpdateBasket();
 
 	const addItemToCart = (newProduct: BasketItem) => {
 		masterData?.variants.forEach((variant) => {
@@ -30,13 +28,15 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 				}
 			}
 		});
-		setProduct(newProduct);
 		if (!basket) {
-			makeCreateRequest(token)
+			makeCreateRequest(token);
 		}
-		if (newProduct && newProduct.product_id !== '' && newProduct.quantity !== 0) {
-			setItemsToAdd([newProduct])
-			setProduct(null);
+		if (
+			newProduct &&
+			newProduct.product_id !== '' &&
+			newProduct.quantity !== 0
+		) {
+			makeUpdateRequest(token, [newProduct]);
 		}
 	};
 
@@ -52,9 +52,8 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 			</Button>
 			<Button
 				marginTop='2%'
-				// display={0 === 0 ? 'none' : 'block'}
-				// disabled={0 === 0 ? true : false}
-				>
+				display={count === 0 ? 'none' : 'block'}
+				disabled={count === 0 ? true : false}>
 				Checkout
 			</Button>
 		</Flex>
