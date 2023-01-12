@@ -1,9 +1,10 @@
+import { IMain } from '@component-types';
 import { useGetProduct } from '../../hooks/useGetProduct';
 import { NotFound } from '../helpers/NotFound';
 import { PDP } from './PDP';
 import { Search } from './Search';
 
-export const Main: React.FC = (): JSX.Element => {
+export const Main: React.FC<IMain> = ({ token }): JSX.Element => {
 	const { dataSet, dataError, loading, setId } = useGetProduct();
 
 	const updateID = (id: string) => {
@@ -19,6 +20,7 @@ export const Main: React.FC = (): JSX.Element => {
 				<PDP
 					productData={dataSet}
 					loading={loading}
+					token={token}
 				/>
 			)}
 		</>

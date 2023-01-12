@@ -1,9 +1,14 @@
 declare module '@component-types' {
 	import { IProduct } from "@product-types";
 	import { ImageModel } from '@compound-types'
+
+	interface IMain {
+		token: string | null;
+	}
 	interface IPDP {
 		productData: IProduct | null;
 		loading: boolean;
+		token: string | null;
 	}
 
 	interface ISearch {
@@ -43,6 +48,7 @@ declare module '@component-types' {
 		quantity: number;
 		size: string | null;
 		color: string | null;
+		token: string | null;
 	}
 
 	interface IPDPInformation {

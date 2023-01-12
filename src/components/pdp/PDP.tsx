@@ -15,7 +15,7 @@ import { PDPQuantity } from './pdpComponents/PDPQuantity';
 import { PDPButtons } from './pdpComponents/PDPButtons';
 import { PDPInformation } from './pdpComponents/PDPInformation';
 
-export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
+export const PDP: React.FC<IPDP> = ({ productData, loading, token }): JSX.Element => {
 	const [quantity, setQuantity] = useState<number>(0);
 	const [variantColor, setVariantColor] = useState<string | null>(null);
 	const [variantSize, setVariantSize] = useState<string | null>(null);
@@ -90,7 +90,7 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 							<PDPSizes sizeData={sizeData} size={variantSize} setSize={setVariantSize}/>
 							<PDPQuantity masterData={productData} setQuantity={setQuantity} quantity={quantity}/>
 						</Flex>
-						<PDPButtons masterData={productData} quantity={quantity} color={variantColor} size={variantSize}/>
+						<PDPButtons masterData={productData} quantity={quantity} color={variantColor} size={variantSize} token={token}/>
 					</Box>
 				</Flex>
 			)}

@@ -1,4 +1,6 @@
 declare module '@context-types' {
+	import { IBasket } from '@basket-types';
+	import { BasketItem } from '@compound-types';
 	interface ContextChildren {
 		children: React.ReactNode;
 	}
@@ -16,6 +18,10 @@ declare module '@context-types' {
 	}
 
 	interface IBasketContext {
+		basket: IBasket | null;
+		setBasket: React.Dispatch<React.SetStateAction<IBasket | null>>;
+		basketItems: BasketItem[] | null;
+		setBasketItems: React.Dispatch<React.SetStateAction<BasketItem[] | null>>;
 		count: number;
 	}
 }

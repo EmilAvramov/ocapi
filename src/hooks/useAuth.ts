@@ -11,34 +11,36 @@ export const useAuth = () => {
 	const [authError, setAuthError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
-    const changeTokenType = (value: string) => setType(value)
+	const changeTokenType = (value: string) => setType(value);
 
 	useEffect(() => {
-		setLoading(true);
-		axios
-			.post<AxiosRequestHeaders, IAuthSuccess>(
-				proxy + authEndPoint,
-				{
-					type: 'guest',
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Accept: 'application/json',
+		if (!token) {
+			setLoading(true);
+			axios
+				.post<AxiosRequestHeaders, IAuthSuccess>(
+					proxy + authEndPoint,
+					{
+						type: 'guest',
 					},
-				}
-			)
-			.then((res) => {
-				setCustomerID(res.data.customer_id);
-				setToken(res.headers.authorization);
-				setTokenType(res.data.auth_type);
-				setLoading(false);
-			})
-			.catch((err: IAuthError) => {
-				console.log(err);
-				setAuthError(err.message);
-			});
-	}, [type]);
+					{
+						headers: {
+							'Content-Type': 'application/json',
+							Accept: 'application/json',
+						},
+					}
+				)
+				.then((res) => {
+					setCustomerID(res.data.customer_id);
+					setToken(res.headers.authorization);
+					setTokenType(res.data.auth_type);
+					setLoading(false);
+				})
+				.catch((err: IAuthError) => {
+					console.log(err);
+					setAuthError(err.message);
+				});
+		}
+	}, [token, type]);
 
 	return { token, tokenType, customerID, authError, loading, changeTokenType };
 };
