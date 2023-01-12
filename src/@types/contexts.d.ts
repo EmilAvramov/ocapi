@@ -1,17 +1,10 @@
 declare module '@context-types' {
-	import { BasketItem } from '@compound-types'
-    interface CartChildren {
+	interface ContextChildren {
 		children: React.ReactNode;
 	}
 
 	interface ICartContext {
-		items: BasketItem[] | [];
 		count: number;
-		setNewItem: React.Dispatch<React.SetStateAction<BasketItem | null>>
-	}
-
-	interface AuthChildren {
-		children: React.ReactNode;
 	}
 
 	interface IAuthContext {
@@ -20,5 +13,9 @@ declare module '@context-types' {
 		customerID: string | null;
 		authError: string | null;
 		changeTokenType: (value: string) => void;
+	}
+
+	interface IBasketContext {
+		count: number;
 	}
 }

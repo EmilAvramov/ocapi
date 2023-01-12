@@ -8,7 +8,7 @@ declare module '@compound-types' {
     }
 
     interface BasketItem {
-        id: string;
+        product_id: string;
         quantity: number;
     }
 }

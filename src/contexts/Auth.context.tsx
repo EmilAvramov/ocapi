@@ -1,4 +1,4 @@
-import { AuthChildren, IAuthContext } from '@context-types';
+import { ContextChildren, IAuthContext } from '@context-types';
 import { createContext, useContext } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
@@ -6,7 +6,7 @@ const AuthContext = createContext<IAuthContext | null>(null);
 
 export const UseAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC<AuthChildren> = ({ children }) => {
+export const AuthProvider: React.FC<ContextChildren> = ({ children }) => {
     const { token, tokenType, customerID, authError, changeTokenType } = useAuth()
 
 	return (

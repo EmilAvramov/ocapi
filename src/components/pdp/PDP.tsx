@@ -20,17 +20,14 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 	const [variantColor, setVariantColor] = useState<string | null>(null);
 	const [variantSize, setVariantSize] = useState<string | null>(null);
 	const [sizeData, setSizeData] = useState<ValuesVAP[] | null>(null);
-	const [allCarouselImages, setallCarouselImages] = useState<
-		ImageModel[] | null
-	>(null);
-	const [swatchImageData, setSwatchImageData] = useState<ImageModel[] | null>(
-		null
-	);
+	const [allCarouselImages, setallCarouselImages] = useState<ImageModel[] | null>(null);
+	const [swatchImageData, setSwatchImageData] = useState<ImageModel[] | null>(null);
 
 	useEffect(() => {
 		let carouselImages: ImageModel[] = [];
 		let swatchImages: ImageModel[] = [];
 		let sizeData: ValuesVAP[] = [];
+
 		productData?.image_groups?.forEach((group: ImageGroup) => {
 			if (group.view_type === 'large' || group.view_type === 'swatch') {
 				group.images.forEach((image) => {
@@ -65,6 +62,8 @@ export const PDP: React.FC<IPDP> = ({ productData, loading }): JSX.Element => {
 		setSizeData(sizeData);
 		setQuantity(0)
 	}, [productData]);
+
+	console.log(allCarouselImages)
 
 	return (
 		<>

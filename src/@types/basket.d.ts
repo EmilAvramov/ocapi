@@ -23,6 +23,7 @@ declare module '@basket-types' {
 			link: string;
 		};
 		order_total: number;
+		product_items: LineItem[];
 		product_sub_tota: number;
 		product_total: number;
 		shipments: IShipment[];
@@ -70,4 +71,25 @@ declare module '@basket-types' {
         path: string;
         type: string;
     }
+
+	interface LineItem {
+		_type: string;
+		adjusted_tax: number;
+		base_price: number;
+		bonus_product_line_item: boolean;
+		gift: boolean;
+		item_id: string;
+		item_text: string;
+		price: number;
+		price_after_item_discount: number;
+		price_after_order_discount: number;
+		product_id: string;
+		product_name: string;
+		quantity: number;
+		shipment_id: string;
+		tax: number;
+		tax_basis: number;
+		tax_class_id: 'string';
+		tax_rate: number;
+	}
 }

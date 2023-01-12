@@ -23,7 +23,7 @@ export const useGetContent = () => {
 					setLoading(false);
 				})
 				.catch((err) => {
-					setDataError(err);
+					setDataError(err.message);
 					setLoading(false);
 				});
 		}

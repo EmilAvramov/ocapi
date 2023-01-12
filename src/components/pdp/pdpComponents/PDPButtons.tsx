@@ -4,6 +4,7 @@ import { BasketItem } from '@compound-types';
 import { ICartContext } from '@context-types';
 import { useState } from 'react';
 import { UseCart } from '../../../contexts/Cart.context';
+import { useBasket } from '../../../hooks/useBasket';
 
 export const PDPButtons: React.FC<IPDPButtons> = ({
 	masterData,
@@ -11,8 +12,9 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 	color,
 	size,
 }): JSX.Element => {
-	const { count, setNewItem } = UseCart() as ICartContext;
+	const { count } = UseCart() as ICartContext;
 	const [product, setProduct] = useState<BasketItem | null>(null);
+	const { setBasketItems } = useBasket();
 
 	const addItemToCart = (newProduct: BasketItem) => {
 		masterData?.variants.forEach((variant) => {
@@ -21,14 +23,14 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 					variant.variation_values.color === color &&
 					variant.variation_values.size === size
 				) {
-					newProduct.id = variant.product_id;
+					newProduct.product_id = variant.product_id;
 				}
 			}
 		});
 		setProduct(product);
-		if (newProduct.id !== '' && newProduct.quantity !== 0) {
-			setNewItem(newProduct);
-			setProduct(null)
+		if (newProduct.product_id !== '' && newProduct.quantity !== 0) {
+			setBasketItems([newProduct]);
+			setProduct(null);
 		}
 	};
 
@@ -38,14 +40,14 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 			gap='30px'>
 			<Button
 				marginTop='2%'
-				onClick={() => addItemToCart({id: '', quantity})}
+				onClick={() => addItemToCart({ product_id: '', quantity })}
 				disabled={quantity === 0 || color === null || size === null}>
 				Add to Cart
 			</Button>
 			<Button
 				marginTop='2%'
 				display={count === 0 ? 'none' : 'block'}
-				disabled={quantity === 0 || color === null || size === null}>
+				disabled={count === 0 ? true : false}>
 				Checkout
 			</Button>
 		</Flex>
