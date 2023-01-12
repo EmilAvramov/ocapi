@@ -1,4 +1,5 @@
 declare module '@compound-types' {
+    import { ICard } from "@form-types";
     interface IImageModel {
         link: string;
         alt: string;
@@ -22,5 +23,11 @@ declare module '@compound-types' {
         address1: string;
         phone: string;
         postal_code: string;
+    }
+
+    interface IPayment {
+        amount: number;
+        payment_card: ICard;
+        payment_method_id: string;
     }
 }

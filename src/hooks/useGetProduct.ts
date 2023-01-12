@@ -1,7 +1,9 @@
-import { IProduct } from '@product-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+
 import { clientID, shopAPI, proxy } from '../config/httpConfig';
+
+import { IProduct } from '@product-types';
 
 export const useGetProduct = () => {
 	const [productID, setProductId] = useState<string>('');

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+
 import { clientID, proxy, shopAPI } from '../config/httpConfig';
 
 export const useGetContent = () => {

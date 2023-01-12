@@ -1,13 +1,16 @@
-import { IBasketContext } from '@context-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+
 import { clientID, proxy, shopAPI } from '../config/httpConfig';
 import { UseBasket } from '../contexts/Basket.context';
+
+import { IBasketContext } from '@context-types';
+import { IPaymentMethodGroup } from '@payment-types';
 
 export const useGetPaymentMethods = () => {
 	const { basket } = UseBasket() as IBasketContext;
 	const [token, setToken] = useState<string | null>(null);
-	const [methods, setMethods] = useState<any>(null);
+	const [methods, setMethods] = useState<IPaymentMethodGroup | null>(null);
 	const [makeRequest, setMakeRequest] = useState<boolean>(false);
 	const [dataError, setDataError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -21,7 +24,7 @@ export const useGetPaymentMethods = () => {
 		if (basket && token) {
 			setLoading(true);
 			axios
-				.get(
+				.get<IPaymentMethodGroup>(
 					`${proxy}${shopAPI}/baskets/${basket?.basket_id}/payment_methods?${clientID}`,
 					{
 						headers: {
@@ -30,7 +33,7 @@ export const useGetPaymentMethods = () => {
 					}
 				)
 				.then((res) => {
-					console.log(res.data)
+					setMethods(res.data)
 					setDataError('');
 					setLoading(false);
 				})
@@ -41,5 +44,5 @@ export const useGetPaymentMethods = () => {
 		}
 	}, [basket, makeRequest, token]);
 
-	return { getMethods, dataError, loading };
+	return { methods, getMethods, dataError, loading };
 };

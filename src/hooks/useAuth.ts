@@ -1,7 +1,9 @@
-import { IAuthError, IAuthSuccess } from '@request-types';
 import axios, { AxiosRequestHeaders } from 'axios';
 import { useEffect, useState } from 'react';
+
 import { authEndPoint, proxy } from '../config/httpConfig';
+
+import { IAuthError, IAuthSuccess } from '@request-types';
 
 export const useAuth = () => {
 	const [type, setType] = useState<string>('guest');

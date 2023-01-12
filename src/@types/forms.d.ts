@@ -10,4 +10,13 @@ declare module '@form-types' {
         zip: string;
         phone: string;
     }
+
+    interface ICard {
+        holder: string;
+        card_type: string;
+        number: string;
+        security_code: string;
+        expiration: string;
+        expiration_year: string;
+    }
 }

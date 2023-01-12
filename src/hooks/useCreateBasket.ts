@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { clientID, proxy, shopAPI } from '../config/httpConfig';
+import { UseBasket } from '../contexts/Basket.context';
 
 import { IBasket } from '@basket-types';
-import { UseBasket } from '../contexts/Basket.context';
 import { IBasketContext } from '@context-types';
 
 export const useCreateBasket = () => {
