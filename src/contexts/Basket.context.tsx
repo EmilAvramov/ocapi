@@ -1,5 +1,5 @@
 import { IBasket } from '@basket-types';
-import { BasketItem } from '@compound-types';
+import { IBasketItem } from '@compound-types';
 import { ContextChildren, IBasketContext } from '@context-types';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -9,8 +9,10 @@ export const UseBasket = () => useContext(BasketContext);
 
 export const BasketProvider: React.FC<ContextChildren> = ({ children }) => {
 	const [basket, setBasket] = useState<IBasket | null>(null);
-	const [basketItems, setBasketItems] = useState<BasketItem[] | null>(null);
+	const [basketItems, setBasketItems] = useState<IBasketItem[] | null>(null);
 	const [count, setCount] = useState<number>(0);
+
+	console.log(basket)
 
 	useEffect(() => {
 		if (basket && basket.product_items) {

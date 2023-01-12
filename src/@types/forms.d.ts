@@ -1,5 +1,5 @@
 declare module '@form-types' {
-    interface AddressForm {
+    interface IAddressForm {
         email: string;
         firstName: string;
         lastName: string;

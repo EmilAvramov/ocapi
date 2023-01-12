@@ -4,7 +4,7 @@ import { Box, Flex } from '@chakra-ui/react';
 
 import { IPDP } from '@component-types';
 import { ImageGroup, ValuesVAP } from '@product-types';
-import { ImageModel } from '@compound-types';
+import { IImageModel } from '@compound-types';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -20,18 +20,18 @@ export const PDP: React.FC<IPDP> = ({ productData, loading, token }): JSX.Elemen
 	const [variantColor, setVariantColor] = useState<string | null>(null);
 	const [variantSize, setVariantSize] = useState<string | null>(null);
 	const [sizeData, setSizeData] = useState<ValuesVAP[] | null>(null);
-	const [allCarouselImages, setallCarouselImages] = useState<ImageModel[] | null>(null);
-	const [swatchImageData, setSwatchImageData] = useState<ImageModel[] | null>(null);
+	const [allCarouselImages, setallCarouselImages] = useState<IImageModel[] | null>(null);
+	const [swatchImageData, setSwatchImageData] = useState<IImageModel[] | null>(null);
 
 	useEffect(() => {
-		let carouselImages: ImageModel[] = [];
-		let swatchImages: ImageModel[] = [];
+		let carouselImages: IImageModel[] = [];
+		let swatchImages: IImageModel[] = [];
 		let sizeData: ValuesVAP[] = [];
 
 		productData?.image_groups?.forEach((group: ImageGroup) => {
 			if (group.view_type === 'large' || group.view_type === 'swatch') {
 				group.images.forEach((image) => {
-					let dataImage: ImageModel = {
+					let dataImage: IImageModel = {
 						link: image.link,
 						alt: image.alt,
 						title: image.title,
