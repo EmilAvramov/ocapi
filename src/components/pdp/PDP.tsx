@@ -63,8 +63,6 @@ export const PDP: React.FC<IPDP> = ({ productData, loading, token }): JSX.Elemen
 		setQuantity(0)
 	}, [productData]);
 
-	console.log(allCarouselImages)
-
 	return (
 		<>
 			{productData && (

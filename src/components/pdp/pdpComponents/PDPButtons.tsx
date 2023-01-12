@@ -2,6 +2,7 @@ import { Flex, Button } from '@chakra-ui/react';
 import { IPDPButtons } from '@component-types';
 import { BasketItem } from '@compound-types';
 import { IBasketContext } from '@context-types';
+import { useNavigate } from 'react-router-dom';
 import { UseBasket } from '../../../contexts/Basket.context';
 import { useCreateBasket } from '../../../hooks/useCreateBasket';
 import { useUpdateBasket } from '../../../hooks/useUpdateBasket';
@@ -16,6 +17,7 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 	const { basket, count } = UseBasket() as IBasketContext;
 	const { makeCreateRequest } = useCreateBasket();
 	const { makeUpdateRequest } = useUpdateBasket();
+	const navigate = useNavigate()
 
 	const addItemToCart = (newProduct: BasketItem) => {
 		masterData?.variants.forEach((variant) => {
@@ -40,6 +42,10 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 		}
 	};
 
+	const checkout = () => {
+		navigate('/checkout')
+	}
+
 	return (
 		<Flex
 			as='div'
@@ -52,6 +58,7 @@ export const PDPButtons: React.FC<IPDPButtons> = ({
 			</Button>
 			<Button
 				marginTop='2%'
+				onClick={checkout}
 				display={count === 0 ? 'none' : 'block'}
 				disabled={count === 0 ? true : false}>
 				Checkout
