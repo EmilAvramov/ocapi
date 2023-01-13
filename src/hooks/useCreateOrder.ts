@@ -5,12 +5,13 @@ import { shopAPI } from '../config/httpConfig';
 import { UseBasket } from '../contexts/Basket.context';
 
 import { IBasketContext } from '@context-types';
+import { IOrder } from '@order_types';
 
 export const useCreateOrder = () => {
     const { basket } = UseBasket() as IBasketContext
 	const [token, setToken] = useState<string | null>(null);
 	const [dataError, setDataError] = useState<string | null>(null);
-    const [order, setOrder] = useState<any>(false);
+    const [order, setOrder] = useState<IOrder | null>(null);
 
 	const makeCreateRequest = (token: string | null) => {
 		setToken(token)
@@ -19,7 +20,7 @@ export const useCreateOrder = () => {
 	useEffect(() => {
 		if (token && basket && !order) {
 			axios
-				.post(
+				.post<IOrder>(
 					`${shopAPI}/orders`,
 					{ basket_id: basket.basket_id},
 					{

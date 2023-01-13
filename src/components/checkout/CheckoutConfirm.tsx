@@ -26,14 +26,17 @@ export const CheckoutConfirm: React.FC<ICheckoutConfirm> = ({
 	};
 
 	const confirm = () => {
-		let cleanHTML = DOMPurity.sanitize(dataSet.c_body, {
-			USE_PROFILES: { html: true },
-		});
-		cleanHTML = cleanHTML.replace('{order}', `#${order.order_no}`);
-		const html = parse(cleanHTML, {
-			trim: true,
-		});
-		return html;
+		if (order) {
+			let cleanHTML = DOMPurity.sanitize(dataSet.c_body, {
+				USE_PROFILES: { html: true },
+			});
+			cleanHTML = cleanHTML.replace('{order}', `#${order.order_no}`);
+			const html = parse(cleanHTML, {
+				trim: true,
+			});
+			return html;
+		}
+		return null;
 	};
 
 	console.log(order);
