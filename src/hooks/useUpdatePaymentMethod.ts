@@ -26,7 +26,7 @@ export const useUpdatePaymentMethod = () => {
 				security_code: data.security_code,
 				expiration: data.expiration,
 				expiration_year: data.expiration_year,
-			};
+			};	
 			setCard(formValues);
 		}
 	};
@@ -35,7 +35,7 @@ export const useUpdatePaymentMethod = () => {
 		if (token && basket && card) {
 			axios
 				.post<IBasket>(
-					`${proxy}${shopAPI}/baskets/${basket.basket_id}/payment_instruments`,
+					`${shopAPI}/baskets/${basket.basket_id}/payment_instruments`,
 					{
 						amount: basket.product_total,
 						payment_card: { ...card },

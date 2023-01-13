@@ -20,7 +20,7 @@ export const useAuth = () => {
 			setLoading(true);
 			axios
 				.post<AxiosRequestHeaders, IAuthSuccess>(
-					proxy + authEndPoint,
+					authEndPoint,
 					{
 						type: 'guest',
 					},

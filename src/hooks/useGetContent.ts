@@ -17,7 +17,7 @@ export const useGetContent = () => {
 		if (contentID) {
 			setLoading(true);
 			axios
-				.get(`${proxy}${shopAPI}/content/${contentID}?${clientID}`)
+				.get(`${shopAPI}/content/${contentID}?${clientID}`)
 				.then((res) => {
 					setDataSet(res.data);
 					setDataError('');

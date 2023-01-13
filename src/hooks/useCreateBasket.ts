@@ -21,7 +21,7 @@ export const useCreateBasket = () => {
 		if (token && !created) {
 			axios
 				.post<IBasket>(
-					`${proxy}${shopAPI}/baskets?${clientID}`,
+					`${shopAPI}/baskets?${clientID}`,
 					{},
 					{
 						headers: {

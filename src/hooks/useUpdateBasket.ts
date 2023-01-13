@@ -24,7 +24,7 @@ export const useUpdateBasket = () => {
 	useEffect(() => {
 		if (token && basket && itemsToAdd) {
 			axios.post<IBasket>(
-				`${proxy}${shopAPI}/baskets/${basket.basket_id}/items`,
+				`${shopAPI}/baskets/${basket.basket_id}/items`,
 				[...itemsToAdd],
 				{
 					headers: {

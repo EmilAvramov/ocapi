@@ -20,7 +20,7 @@ export const useGetProduct = () => {
 			setLoading(true);
 			axios
 				.get<IProduct>(
-					`${proxy}${shopAPI}/products/${productID}?expand=prices%2Cvariations%2Cimages%2Cavailability%2Coptions%2Cbundled_products%2Cpromotions&all_images=true&${clientID}`
+					`${shopAPI}/products/${productID}?expand=prices%2Cvariations%2Cimages%2Cavailability%2Coptions%2Cbundled_products%2Cpromotions&all_images=true&${clientID}`
 				)
 				.then((res) => {
 					console.log(res.data);
