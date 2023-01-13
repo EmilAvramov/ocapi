@@ -17,7 +17,7 @@ const Router = () => {
 			<Header />
 			<Routes>
 				<Route path='/' element={<Main token={token}/>}></Route>
-				<Route path='checkout' element={<Checkout />}></Route>
+				<Route path='checkout' element={<Checkout token={token}/>}></Route>
 				<Route path='cart' element={<Cart />}></Route>
                 <Route path='*' element={<NotFound error={''}/>}></Route>
 			</Routes>

@@ -12,11 +12,10 @@ import * as Yup from 'yup';
 import { IAddressForm } from '@form-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUpdateAddress } from '../../hooks/useUpdateAddress';
-import { useAuth } from '../../hooks/useAuth';
+import { ICheckout } from '@component-types';
 
-export const Checkout: React.FC = (): JSX.Element => {
+export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	const { makeUpdateRequest } = useUpdateAddress();
-	const { token } = useAuth();
 
 	const validationSchema = Yup.object().shape({
 		email: Yup.string()

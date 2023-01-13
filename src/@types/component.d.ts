@@ -54,4 +54,8 @@ declare module '@component-types' {
 	interface IPDPInformation {
 		masterData: IProduct | null;
 	}
+
+	interface ICheckout {
+		token: string | null;
+	}
 }

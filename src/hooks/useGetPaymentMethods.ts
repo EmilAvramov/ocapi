@@ -25,7 +25,7 @@ export const useGetPaymentMethods = () => {
 			setLoading(true);
 			axios
 				.get<IPaymentMethodGroup>(
-					`${shopAPI}/baskets/${basket?.basket_id}/payment_methods?${clientID}`,
+					`${shopAPI}/baskets/${basket.basket_id}/payment_methods?${clientID}`,
 					{
 						headers: {
 							Authorization: token,

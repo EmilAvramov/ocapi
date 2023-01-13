@@ -38,7 +38,7 @@ export const useUpdateAddress = () => {
 	useEffect(() => {
 		if (token && basket && address) {
 			axios.put<IBasket>(
-				`${shopAPI}/baskets/${basket.basket_id}/billing_address?use_as_shipping=true&customer_address_id=93a33673e7dbf6bed25c81b900&${clientID}`,
+				`${shopAPI}/baskets/${basket.basket_id}/billing_address?use_as_shipping=true`,
 				{...address},
 				{
 					headers: {
@@ -47,8 +47,10 @@ export const useUpdateAddress = () => {
 				}
 			).then(res => {
 				setBasket(res.data)
+				setAddress(null)
 			}).catch(err => {
 				setDataError(err.message)
+				setAddress(null)
 			});
 			
 		}
