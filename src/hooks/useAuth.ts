@@ -1,7 +1,7 @@
 import axios, { AxiosRequestHeaders } from 'axios';
 import { useEffect, useState } from 'react';
 
-import { authEndPoint, proxy } from '../config/httpConfig';
+import { authEndPoint } from '../config/httpConfig';
 
 import { IAuthError, IAuthSuccess } from '@request-types';
 

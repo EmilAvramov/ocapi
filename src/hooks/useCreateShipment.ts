@@ -2,7 +2,7 @@ import { IBasket } from '@basket-types';
 import { IBasketContext } from '@context-types';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { shopAPI, clientID } from '../config/httpConfig';
+import { shopAPI } from '../config/httpConfig';
 import { UseBasket } from '../contexts/Basket.context';
 
 export const useCreateShipment = () => {
@@ -12,8 +12,6 @@ export const useCreateShipment = () => {
 	const [makeRequest, setMakeRequest] = useState<boolean>(false);
 
 	const createShipment = (token: string | null) => {
-        console.log(token)
-        console.log(makeRequest)
 		setToken(token);
 	};
 
@@ -32,11 +30,13 @@ export const useCreateShipment = () => {
 					}
 				)
 				.then((res) => {
+                    setBasket(res.data)
                     setMakeRequest(true)
-					console.log(res.data);
-				});
+				}).catch(err => {
+                    setDataError(err.message)
+                });
 		}
-	}, [basket, makeRequest, token]);
+	}, [basket, makeRequest, setBasket, token]);
 
 	return { createShipment, dataError };
 };

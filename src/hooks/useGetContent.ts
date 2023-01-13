@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { clientID, proxy, shopAPI } from '../config/httpConfig';
+import { clientID, shopAPI } from '../config/httpConfig';
 
 export const useGetContent = () => {
 	const [contentID, setContentID] = useState<string | null>('links');

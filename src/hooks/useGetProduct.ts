@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { clientID, shopAPI, proxy } from '../config/httpConfig';
+import { clientID, shopAPI } from '../config/httpConfig';
 
 import { IProduct } from '@product-types';
 
