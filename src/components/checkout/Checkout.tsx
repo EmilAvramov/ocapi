@@ -8,6 +8,7 @@ import { Flex, Button } from '@chakra-ui/react';
 import { useGetPaymentMethods } from '../../hooks/useGetPaymentMethods';
 import { CheckoutPayment } from './CheckoutPayment';
 import { useState } from 'react';
+import { CheckoutConfirm } from './CheckoutConfirm';
 
 export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	const { basket } = UseBasket() as IBasketContext;
@@ -17,6 +18,7 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	const [addressVisible, setAddressVisible] = useState<boolean>(false);
 	const [shippingVisible, setShippingVisible] = useState<boolean>(false);
 	const [paymentsVisible, setPaymentsVisible] = useState<boolean>(false);
+	const [confirmVisible, setConfirmVisible] = useState<boolean>(false);
 
 	const beginCheckout = () => {
 		setCheckoutStarted(true);
@@ -33,7 +35,7 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	};
 
 	const changePaymentsState = (value: boolean) => {
-		getPaymentMethods(token)
+		getPaymentMethods(token);
 		setPaymentsVisible(value);
 	};
 
@@ -71,8 +73,14 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 				<CheckoutPayment
 					token={token}
 					ownState={changePaymentsState}
-					nextState={changePaymentsState}
+					nextState={setConfirmVisible}
 					methods={paymentMethods}
+				/>
+			)}
+			{confirmVisible && (
+				<CheckoutConfirm
+					token={token}
+					basket={basket}
 				/>
 			)}
 		</>

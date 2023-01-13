@@ -10,6 +10,7 @@ import { ICheckoutPayment } from '@component-types';
 import { IPaymentForm } from '@form-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+	ICardPayload,
 	IPaymentCard,
 	IPaymentMethod,
 	IPaymentMethodGroup,
@@ -22,6 +23,7 @@ import {
 	mcPrefixPattern,
 	visaPrefixPattern,
 } from '../../config/staticData';
+import { useUpdatePaymentMethod } from '../../hooks/useUpdatePaymentMethod';
 
 export const CheckoutPayment: React.FC<ICheckoutPayment> = ({
 	token,
@@ -29,6 +31,7 @@ export const CheckoutPayment: React.FC<ICheckoutPayment> = ({
 	nextState,
 	methods,
 }): JSX.Element => {
+	const { makeUpdateRequest, dataError } = useUpdatePaymentMethod();
 	const [paymentMethods, setPaymentMethods] =
 		useState<IPaymentMethodGroup | null>(null);
 	const [paymentMethod, setPaymentMethod] = useState<IPaymentMethod | null>(
@@ -68,12 +71,20 @@ export const CheckoutPayment: React.FC<ICheckoutPayment> = ({
 				then: Yup.string().matches(amexProfixPattern, {
 					message: 'Enter a valid card number',
 				}),
-			}),
-		expiration: Yup.string().length(5, 'Enter a valid expiration date'),
-		cvv: Yup.string().length(
-			paymentCard ? paymentCard.security_code_length : 3,
-			'CVV length invalid'
-		),
+			})
+			.required('Field is required'),
+		month: Yup.string()
+			.length(2, 'Enter a valid month')
+			.required('Field is required'),
+		year: Yup.string()
+			.length(4, 'Enter a valid year')
+			.required('Field is required'),
+		cvv: Yup.string()
+			.length(
+				paymentCard ? paymentCard.security_code_length : 3,
+				'CVV length invalid'
+			)
+			.required('Field is required'),
 	});
 
 	const {
@@ -124,8 +135,22 @@ export const CheckoutPayment: React.FC<ICheckoutPayment> = ({
 		}
 	};
 
-	const onSubmit = (data: any) => {
-		console.log(data);
+	const onSubmit = (data: IPaymentForm) => {
+		const paymentData: ICardPayload = {
+			number: data.cardNumber,
+			security_code: data.cvv,
+			holder: data.cardHolder,
+			card_type: data.card,
+			expiration_month: Number(data.month),
+			expiration_year: Number(data.year),
+		};
+		makeUpdateRequest(token, paymentData);
+		setTimeout(() => {
+			if (!dataError) {
+				ownState(false);
+				nextState(true);
+			}
+		}, 1000);
 	};
 
 	return (
@@ -196,15 +221,23 @@ export const CheckoutPayment: React.FC<ICheckoutPayment> = ({
 								<Flex gap='10px'>
 									<FormControl flexBasis='50%'>
 										<Input
-											id='expiration'
+											id='month'
 											flexBasis='80%'
 											type='text'
-											placeholder='Card Expiration'
-											{...register('expiration')}
+											placeholder='Exp. Month'
+											{...register('month')}
 										/>
-										{errors.expiration && (
-											<Box>{errors.expiration.message}</Box>
-										)}
+										{errors.month && <Box>{errors.month.message}</Box>}
+									</FormControl>
+									<FormControl flexBasis='50%'>
+										<Input
+											id='year'
+											flexBasis='80%'
+											type='text'
+											placeholder='Exp. Year'
+											{...register('year')}
+										/>
+										{errors.year && <Box>{errors.year.message}</Box>}
 									</FormControl>
 									<FormControl flexBasis='50%'>
 										<Input

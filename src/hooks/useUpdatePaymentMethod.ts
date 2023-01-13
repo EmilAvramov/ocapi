@@ -6,28 +6,20 @@ import { shopAPI } from '../config/httpConfig';
 import { IBasket } from '@basket-types';
 import { UseBasket } from '../contexts/Basket.context';
 import { IBasketContext } from '@context-types';
-import { ICard } from '@form-types';
+import { ICardPayload } from '@payment-types';
 
 export const useUpdatePaymentMethod = () => {
 	const { basket, setBasket } = UseBasket() as IBasketContext;
 	const [dataError, setDataError] = useState<string | null>(null);
-	const [card, setCard] = useState<ICard | null>(null);
+	const [card, setCard] = useState<ICardPayload | null>(null);
 	const [token, setToken] = useState<string | null>(null);
 
-	const makeUpdateRequest = (tokenData: string | null, data: ICard) => {
+	const makeUpdateRequest = (tokenData: string | null, data: ICardPayload) => {
 		if (tokenData) {
 			setToken(tokenData);
 		}
-		if (data) {
-			let formValues: ICard = {
-				holder: data.holder,
-				card_type: data.card_type,
-				number: data.number,
-				security_code: data.security_code,
-				expiration: data.expiration,
-				expiration_year: data.expiration_year,
-			};	
-			setCard(formValues);
+		if (data) {	
+			setCard(data);
 		}
 	};
 
@@ -49,6 +41,7 @@ export const useUpdatePaymentMethod = () => {
 				)
 				.then((res) => {
 					setBasket(res.data);
+					setCard(null)
 				})
 				.catch((err) => {
 					setDataError(err.message);

@@ -3,6 +3,7 @@ declare module '@component-types' {
 	import { ImageModel } from '@compound-types';
 	import { IShipmenthData } from '@shipment-types';
 	import { IPaymentMethodGroup } from '@payment-types';
+	import { IBasket } from '@basket-types';
 
 	interface IMain {
 		token: string | null;
@@ -78,5 +79,10 @@ declare module '@component-types' {
 		ownState: (value: boolean) => void;
 		nextState: (value: boolean) => void;
 		methods: IPaymentMethodGroup | null;
+	}
+
+	interface ICheckoutConfirm {
+		token: string | null;
+		basket: IBasket | null;
 	}
 }

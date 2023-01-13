@@ -22,4 +22,13 @@ declare module '@payment-types' {
         number_prefixes: string[];
         security_code_length: number;
     }
+
+    interface ICardPayload {
+        number: string,
+        security_code: string,
+        holder: string,
+        card_type: string,
+        expiration_month: number,
+        expiration_year: number
+    }
 }

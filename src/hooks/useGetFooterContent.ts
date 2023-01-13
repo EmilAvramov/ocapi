@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { clientID, shopAPI } from '../config/httpConfig';
 
-export const useGetContent = () => {
+export const useGetFooterContent = () => {
 	const [contentID, setContentID] = useState<string | null>('links');
 	const [dataSet, setDataSet] = useState<any | null>(null);
 	const [dataError, setDataError] = useState<string | null>(null);

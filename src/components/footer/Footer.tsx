@@ -1,10 +1,10 @@
 import { Flex } from '@chakra-ui/react';
-import { useGetContent } from '../../hooks/useGetContent';
+import { useGetFooterContent } from '../../hooks/useGetFooterContent';
 import DOMPurity from 'dompurify';
 import parse from 'html-react-parser';
 
 export const Footer: React.FC = (): JSX.Element => {
-	const { dataSet } = useGetContent();
+	const { dataSet } = useGetFooterContent();
 
 	const links = () => {
 		const cleanHTML = DOMPurity.sanitize(dataSet.c_body, {

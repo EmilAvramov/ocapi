@@ -29,7 +29,8 @@ declare module '@form-types' {
         card: string;
         cardHolder: string;
         cardNumber: string;
-        expiration: string;
+        month: string;
+        year: string;
         cvv: string;
     }
 }
