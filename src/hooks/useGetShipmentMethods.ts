@@ -5,12 +5,12 @@ import { shopAPI } from '../config/httpConfig';
 import { UseBasket } from '../contexts/Basket.context';
 
 import { IBasketContext } from '@context-types';
-import { IPaymentMethodGroup } from '@payment-types';
+import { IShipmenthData } from '@shipment-types';
 
 export const useGetShipmentMethods = () => {
 	const { basket } = UseBasket() as IBasketContext;
 	const [token, setToken] = useState<string | null>(null);
-	const [methods, setMethods] = useState<IPaymentMethodGroup | null>(null);
+	const [methods, setMethods] = useState<IShipmenthData | null>(null);
 	const [makeRequest, setMakeRequest] = useState<boolean>(false);
 	const [dataError, setDataError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export const useGetShipmentMethods = () => {
 		if (basket && token) {
 			setLoading(true);
 			axios
-				.get<IPaymentMethodGroup>(
+				.get<IShipmenthData>(
 					`${shopAPI}/baskets/${basket.basket_id}/shipments/me/shipping_methods`,
 					{
 						headers: {

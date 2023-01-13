@@ -1,6 +1,7 @@
 declare module '@component-types' {
-	import { IProduct } from "@product-types";
-	import { ImageModel } from '@compound-types'
+	import { IProduct } from '@product-types';
+	import { ImageModel } from '@compound-types';
+	import { IShipmenthData } from '@shipment-types';
 
 	interface IMain {
 		token: string | null;
@@ -28,7 +29,7 @@ declare module '@component-types' {
 		color: string | null;
 		swatches: ImageModel[] | null;
 		masterData: IProduct | null;
-		setColor: React.Dispatch<React.SetStateAction<string | null>>
+		setColor: React.Dispatch<React.SetStateAction<string | null>>;
 	}
 
 	interface IPDPSizes {
@@ -63,5 +64,12 @@ declare module '@component-types' {
 		token: string | null;
 		ownState: (value: boolean) => void;
 		nextState: (value: boolean) => void;
+	}
+
+	interface ICheckoutMethods {
+		token: string | null;
+		ownState: (value: boolean) => void;
+		nextState: (value: boolean) => void;
+		methods: IShipmenthData | null;
 	}
 }

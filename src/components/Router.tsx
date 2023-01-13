@@ -39,7 +39,18 @@ const Router = () => {
 						}></Route>
 					<Route
 						path='methods'
-						element={<CheckoutMethods />}></Route>
+						element={
+							<CheckoutMethods
+								token={null}
+								ownState={function (value: boolean): void {
+									throw new Error('Function not implemented.');
+								}}
+								nextState={function (value: boolean): void {
+									throw new Error('Function not implemented.');
+								}}
+								methods={null}
+							/>
+						}></Route>
 				</Route>
 				<Route
 					path='cart'

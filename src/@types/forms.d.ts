@@ -19,4 +19,8 @@ declare module '@form-types' {
         expiration: string;
         expiration_year: string;
     }
+
+    interface IShipmentMethodForm {
+        method: string;
+    }
 }

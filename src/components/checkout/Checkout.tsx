@@ -25,6 +25,7 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	};
 
 	const changeMethodsState = (value: boolean) => {
+		getMethods(token)
 		setMethodsVisible(value);
 	};
 
@@ -60,7 +61,6 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 					ownState={changeAddressState}
 					nextState={changeMethodsState}
 					methods={methods}
-					getMethods={getMethods}
 				/>
 			)}
 		</>
