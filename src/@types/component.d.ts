@@ -58,4 +58,10 @@ declare module '@component-types' {
 	interface ICheckout {
 		token: string | null;
 	}
+
+	interface ICheckoutAddress {
+		token: string | null;
+		ownState: (value: boolean) => void;
+		nextState: (value: boolean) => void;
+	}
 }
