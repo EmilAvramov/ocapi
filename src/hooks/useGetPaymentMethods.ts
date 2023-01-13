@@ -10,13 +10,13 @@ import { IPaymentMethodGroup } from '@payment-types';
 export const useGetPaymentMethods = () => {
 	const { basket } = UseBasket() as IBasketContext;
 	const [token, setToken] = useState<string | null>(null);
-	const [methods, setMethods] = useState<IPaymentMethodGroup | null>(null);
+	const [paymentMethods, setPaymentMethods] = useState<IPaymentMethodGroup | null>(null);
 	const [makeRequest, setMakeRequest] = useState<boolean>(false);
 	const [dataError, setDataError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const getMethods = (token: string | null) => {
-		if (!methods) {
+	const getPaymentMethods = (token: string | null) => {
+		if (!paymentMethods) {
 			setMakeRequest((prev) => !prev);
 		}
 		setToken(token)
@@ -35,7 +35,7 @@ export const useGetPaymentMethods = () => {
 					}
 				)
 				.then((res) => {
-					setMethods(res.data)
+					setPaymentMethods(res.data)
 					setDataError('');
 					setLoading(false);
 				})
@@ -46,5 +46,5 @@ export const useGetPaymentMethods = () => {
 		}
 	}, [basket, makeRequest, token]);
 
-	return { methods, getMethods, dataError, loading };
+	return { paymentMethods, getPaymentMethods, dataError, loading };
 };

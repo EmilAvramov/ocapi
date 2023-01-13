@@ -10,13 +10,13 @@ import { IShipmenthData } from '@shipment-types';
 export const useGetShippingMethods = () => {
 	const { basket } = UseBasket() as IBasketContext;
 	const [token, setToken] = useState<string | null>(null);
-	const [methods, setMethods] = useState<IShipmenthData | null>(null);
+	const [shippingMethods, setShippingMethods] = useState<IShipmenthData | null>(null);
 	const [makeRequest, setMakeRequest] = useState<boolean>(false);
 	const [dataError, setDataError] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const getMethods = (token: string | null) => {
-		if (!methods) {
+	const getShippingMethods = (token: string | null) => {
+		if (!shippingMethods) {
 			setMakeRequest((prev) => !prev);
 		}
 		setToken(token);
@@ -35,7 +35,7 @@ export const useGetShippingMethods = () => {
 					}
 				)
 				.then((res) => {
-					setMethods(res.data);
+					setShippingMethods(res.data);
 					setDataError('');
 					setLoading(false);
 				})
@@ -46,5 +46,5 @@ export const useGetShippingMethods = () => {
 		}
 	}, [basket, makeRequest, token]);
 
-	return { methods, getMethods, dataError, loading };
+	return { shippingMethods, getShippingMethods, dataError, loading };
 };

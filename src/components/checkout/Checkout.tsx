@@ -3,16 +3,19 @@ import { useGetShippingMethods } from '../../hooks/useGetShippingMethods';
 import { UseBasket } from '../../contexts/Basket.context';
 import { IBasketContext } from '@context-types';
 import { CheckoutAddress } from './CheckoutAddress';
-import { CheckoutMethods } from './CheckoutMethods';
-import { useEffect, useState } from 'react';
+import { CheckoutShipping } from './CheckoutShipping';
 import { Flex, Button } from '@chakra-ui/react';
+import { useGetPaymentMethods } from '../../hooks/useGetPaymentMethods';
+import { CheckoutPayment } from './CheckoutPayment';
+import { useState } from 'react';
 
 export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	const { basket } = UseBasket() as IBasketContext;
-	const { methods, getMethods } = useGetShippingMethods();
+	const { shippingMethods, getShippingMethods } = useGetShippingMethods();
+	const { paymentMethods, getPaymentMethods } = useGetPaymentMethods();
 	const [checkoutStarted, setCheckoutStarted] = useState<boolean>(false);
 	const [addressVisible, setAddressVisible] = useState<boolean>(false);
-	const [methodsVisible, setMethodsVisible] = useState<boolean>(false);
+	const [shippingVisible, setShippingVisible] = useState<boolean>(false);
 	const [paymentsVisible, setPaymentsVisible] = useState<boolean>(false);
 
 	const beginCheckout = () => {
@@ -24,12 +27,13 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 		setAddressVisible(value);
 	};
 
-	const changeMethodsState = (value: boolean) => {
-		getMethods(token)
-		setMethodsVisible(value);
+	const changeShippingState = (value: boolean) => {
+		getShippingMethods(token);
+		setShippingVisible(value);
 	};
 
 	const changePaymentsState = (value: boolean) => {
+		getPaymentMethods(token)
 		setPaymentsVisible(value);
 	};
 
@@ -52,15 +56,23 @@ export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 				<CheckoutAddress
 					token={token}
 					ownState={changeAddressState}
-					nextState={changeMethodsState}
+					nextState={changeShippingState}
 				/>
 			)}
-			{methodsVisible && (
-				<CheckoutMethods
+			{shippingVisible && (
+				<CheckoutShipping
 					token={token}
-					ownState={changeAddressState}
-					nextState={changeMethodsState}
-					methods={methods}
+					ownState={changeShippingState}
+					nextState={changePaymentsState}
+					methods={shippingMethods}
+				/>
+			)}
+			{paymentsVisible && (
+				<CheckoutPayment
+					token={token}
+					ownState={changePaymentsState}
+					nextState={changePaymentsState}
+					methods={paymentMethods}
 				/>
 			)}
 		</>

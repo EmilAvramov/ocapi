@@ -1,12 +1,12 @@
 import { Box, Button, Flex, FormControl, Select } from '@chakra-ui/react';
-import { ICheckoutMethods } from '@component-types';
+import { ICheckoutShipping } from '@component-types';
 import { IShipmentMethodForm } from '@form-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { useUpdateShippingMethod } from '../../hooks/useUpdateShippingMethod';
 
-export const CheckoutMethods: React.FC<ICheckoutMethods> = ({
+export const CheckoutShipping: React.FC<ICheckoutShipping> = ({
 	token,
 	ownState,
 	nextState,

@@ -23,4 +23,13 @@ declare module '@form-types' {
     interface IShipmentMethodForm {
         method: string;
     }
+
+    interface IPaymentForm {
+        method: string;
+        card: string;
+        cardHolder: string;
+        cardNumber: string;
+        expiration: string;
+        cvv: string;
+    }
 }

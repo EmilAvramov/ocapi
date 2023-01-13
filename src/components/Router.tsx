@@ -9,7 +9,9 @@ import { Header } from './header/Header';
 import { NotFound } from './helpers/NotFound';
 import { useAuth } from '../hooks/useAuth';
 import { CheckoutAddress } from './checkout/CheckoutAddress';
-import { CheckoutMethods } from './checkout/CheckoutMethods';
+import { CheckoutShipping } from './checkout/CheckoutShipping';
+import { CheckoutPayment } from './checkout/CheckoutPayment';
+
 
 const Router = () => {
 	const { token } = useAuth();
@@ -40,7 +42,21 @@ const Router = () => {
 					<Route
 						path='methods'
 						element={
-							<CheckoutMethods
+							<CheckoutShipping
+								token={null}
+								ownState={function (value: boolean): void {
+									throw new Error('Function not implemented.');
+								}}
+								nextState={function (value: boolean): void {
+									throw new Error('Function not implemented.');
+								}}
+								methods={null}
+							/>
+						}></Route>
+					<Route
+						path='payment'
+						element={
+							<CheckoutPayment
 								token={null}
 								ownState={function (value: boolean): void {
 									throw new Error('Function not implemented.');

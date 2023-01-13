@@ -2,6 +2,7 @@ declare module '@component-types' {
 	import { IProduct } from '@product-types';
 	import { ImageModel } from '@compound-types';
 	import { IShipmenthData } from '@shipment-types';
+	import { IPaymentMethodGroup } from '@payment-types';
 
 	interface IMain {
 		token: string | null;
@@ -66,10 +67,16 @@ declare module '@component-types' {
 		nextState: (value: boolean) => void;
 	}
 
-	interface ICheckoutMethods {
+	interface ICheckoutShipping {
 		token: string | null;
 		ownState: (value: boolean) => void;
 		nextState: (value: boolean) => void;
 		methods: IShipmenthData | null;
+	}
+	interface ICheckoutPayment {
+		token: string | null;
+		ownState: (value: boolean) => void;
+		nextState: (value: boolean) => void;
+		methods: IPaymentMethodGroup | null;
 	}
 }
