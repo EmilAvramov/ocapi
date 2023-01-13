@@ -52,3 +52,6 @@ export const states = [
 	'Non-US/Other',
 ];
 export const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+export const visaPrefixPattern = /^[4]/;
+export const amexProfixPattern = /^[34|37]{2,2}/;
+export const mcPrefixPattern = /^[51|52|53|54|55]{2,2}/;
