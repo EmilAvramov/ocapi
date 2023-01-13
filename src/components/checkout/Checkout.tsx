@@ -1,5 +1,5 @@
 import { ICheckout } from '@component-types';
-import { useGetShipmentMethods } from '../../hooks/useGetShipmentMethods';
+import { useGetShippingMethods } from '../../hooks/useGetShippingMethods';
 import { UseBasket } from '../../contexts/Basket.context';
 import { IBasketContext } from '@context-types';
 import { CheckoutAddress } from './CheckoutAddress';
@@ -9,7 +9,7 @@ import { Flex, Button } from '@chakra-ui/react';
 
 export const Checkout: React.FC<ICheckout> = ({ token }): JSX.Element => {
 	const { basket } = UseBasket() as IBasketContext;
-	const { methods, getMethods } = useGetShipmentMethods();
+	const { methods, getMethods } = useGetShippingMethods();
 	const [checkoutStarted, setCheckoutStarted] = useState<boolean>(false);
 	const [addressVisible, setAddressVisible] = useState<boolean>(false);
 	const [methodsVisible, setMethodsVisible] = useState<boolean>(false);

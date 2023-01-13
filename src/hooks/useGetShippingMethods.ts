@@ -7,7 +7,7 @@ import { UseBasket } from '../contexts/Basket.context';
 import { IBasketContext } from '@context-types';
 import { IShipmenthData } from '@shipment-types';
 
-export const useGetShipmentMethods = () => {
+export const useGetShippingMethods = () => {
 	const { basket } = UseBasket() as IBasketContext;
 	const [token, setToken] = useState<string | null>(null);
 	const [methods, setMethods] = useState<IShipmenthData | null>(null);
@@ -16,8 +16,10 @@ export const useGetShipmentMethods = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const getMethods = (token: string | null) => {
-		setMakeRequest((prev) => !prev);
-		setToken(token)
+		if (!methods) {
+			setMakeRequest((prev) => !prev);
+		}
+		setToken(token);
 	};
 
 	useEffect(() => {
@@ -33,7 +35,7 @@ export const useGetShipmentMethods = () => {
 					}
 				)
 				.then((res) => {
-					setMethods(res.data)
+					setMethods(res.data);
 					setDataError('');
 					setLoading(false);
 				})

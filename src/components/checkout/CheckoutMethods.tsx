@@ -4,6 +4,7 @@ import { IShipmentMethodForm } from '@form-types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { useUpdateShippingMethod } from '../../hooks/useUpdateShippingMethod';
 
 export const CheckoutMethods: React.FC<ICheckoutMethods> = ({
 	token,
@@ -11,6 +12,8 @@ export const CheckoutMethods: React.FC<ICheckoutMethods> = ({
 	nextState,
 	methods,
 }): JSX.Element => {
+    const { makeUpdateRequest, dataError } = useUpdateShippingMethod()
+
 	const validationSchema = Yup.object().shape({
 		method: Yup.string().required('Selecting a method is required'),
 	});
@@ -25,13 +28,14 @@ export const CheckoutMethods: React.FC<ICheckoutMethods> = ({
 		reValidateMode: 'onSubmit',
 	});
 
-	const onSubmit = (data: any) => {
-		console.log(data);
-		// makeUpdateRequest(token, data);
-		// if (!dataError) {
-		//     ownState(false)
-		//     nextState(true)
-		// }
+	const onSubmit = (data: IShipmentMethodForm) => {
+		makeUpdateRequest(token, data.method);
+		setTimeout(() => {
+			if (!dataError) {
+				ownState(false);
+				nextState(true);
+			}
+		}, 1000);
 	};
 
 	const renderOptions = methods?.applicable_shipping_methods.map(
@@ -44,7 +48,6 @@ export const CheckoutMethods: React.FC<ICheckoutMethods> = ({
 		)
 	);
 
-	console.log(methods);
 	return (
 		<Flex
 			align='center'

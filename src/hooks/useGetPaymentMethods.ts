@@ -16,7 +16,9 @@ export const useGetPaymentMethods = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const getMethods = (token: string | null) => {
-		setMakeRequest((prev) => !prev);
+		if (!methods) {
+			setMakeRequest((prev) => !prev);
+		}
 		setToken(token)
 	};
 

@@ -14,7 +14,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useUpdateAddress } from '../../hooks/useUpdateAddress';
 import { ICheckoutAddress } from '@component-types';
 
-export const CheckoutAddress: React.FC<ICheckoutAddress> = ({ token, ownState, nextState }): JSX.Element => {
+export const CheckoutAddress: React.FC<ICheckoutAddress> = ({
+	token,
+	ownState,
+	nextState,
+}): JSX.Element => {
 	const { makeUpdateRequest, dataError } = useUpdateAddress();
 
 	const validationSchema = Yup.object().shape({
@@ -47,11 +51,12 @@ export const CheckoutAddress: React.FC<ICheckoutAddress> = ({ token, ownState, n
 
 	const onSubmit = (data: IAddressForm) => {
 		makeUpdateRequest(token, data);
-        if (!dataError) {
-            ownState(false) 
-            nextState(true)
-        }
-        
+		setTimeout(() => {
+			if (!dataError) {
+				ownState(false);
+				nextState(true);
+			}
+		}, 1000);
 	};
 
 	const renderOptions = states.map((state, index) => (
